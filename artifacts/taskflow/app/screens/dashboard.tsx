@@ -134,13 +134,7 @@ export default function DashboardScreen() {
   );
 
   return (
-    <View
-      style={[
-        styles.container,
-        { backgroundColor: theme.colors.background },
-        Platform.OS === "web" ? { maxWidth: 720, alignSelf: "center", width: "100%" } : {},
-      ]}
-    >
+    <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
       <FlatList
         data={filtered}
         keyExtractor={(item) => item.id}
@@ -156,9 +150,12 @@ export default function DashboardScreen() {
             onButtonPress={navigate.toCreateTask}
           />
         }
-        contentContainerStyle={{ paddingBottom: bottomPad + 24 }}
+        contentContainerStyle={[
+          { paddingBottom: bottomPad + 24 },
+          Platform.OS === "web" ? { maxWidth: 720, alignSelf: "center", width: "100%" } : {},
+        ]}
         showsVerticalScrollIndicator={false}
-        scrollEnabled={filtered.length > 0}
+        scrollEnabled={true}
         extraData={refreshKey}
       />
     </View>
@@ -182,14 +179,17 @@ const styles = StyleSheet.create({
     paddingRight: 12,
   },
   greeting: {
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: "700",
     color: "#FFFFFF",
+    flexShrink: 1,
+    lineHeight: 28,
   },
   subtitle: {
-    fontSize: 15,
+    fontSize: 14,
     color: "rgba(255,255,255,0.75)",
     marginTop: 4,
+    lineHeight: 20,
   },
   headerActions: {
     flexDirection: "row",
@@ -227,7 +227,7 @@ const styles = StyleSheet.create({
     lineHeight: 28,
   },
   statLabel: {
-    fontSize: 10,
+    fontSize: 11,
     color: theme.colors.textMuted,
     textAlign: "center",
     marginTop: 2,

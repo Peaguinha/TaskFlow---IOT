@@ -93,7 +93,7 @@ export default function TaskDetailsScreen() {
     <View style={styles.container}>
       <ScrollView
         contentContainerStyle={[
-          { paddingBottom: bottomPad + 180 },
+          { paddingBottom: bottomPad + 24 },
           Platform.OS === "web" ? { maxWidth: 720, alignSelf: "center", width: "100%" } : {},
         ]}
         showsVerticalScrollIndicator={false}
@@ -170,15 +170,15 @@ export default function TaskDetailsScreen() {
             })}
           </View>
         </View>
-      </ScrollView>
 
-      <View style={[styles.bottomBar, { paddingBottom: bottomPad + 12 }]}>
-        <Button
-          title="Excluir Tarefa"
-          variant="danger"
-          onPress={handleDelete}
-        />
-      </View>
+        <View style={[styles.deleteCard, { marginBottom: bottomPad + 16 }]}>
+          <Button
+            title="Excluir Tarefa"
+            variant="danger"
+            onPress={handleDelete}
+          />
+        </View>
+      </ScrollView>
     </View>
   );
 }
@@ -263,17 +263,13 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     color: theme.colors.textSecondary,
   },
-  bottomBar: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
+  deleteCard: {
     backgroundColor: theme.colors.surface,
-    paddingHorizontal: 20,
-    paddingTop: 16,
-    borderTopWidth: 1,
-    borderTopColor: theme.colors.border,
-    ...(Platform.OS === "web" ? { maxWidth: 720, alignSelf: "center" } : {}),
+    marginHorizontal: 20,
+    marginTop: 16,
+    borderRadius: 16,
+    padding: 20,
+    ...theme.shadow.sm,
   },
   notFound: {
     flex: 1,

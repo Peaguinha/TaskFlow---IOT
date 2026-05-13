@@ -1,6 +1,6 @@
 import { Feather } from "@expo/vector-icons";
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Platform, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import type { Task } from "../context/TaskContext";
 import theme from "../styles/theme";
 import StatusBadge from "./StatusBadge";
@@ -77,6 +77,7 @@ const styles = StyleSheet.create({
     marginHorizontal: theme.spacing.md,
     marginBottom: theme.spacing.sm,
     ...theme.shadow.sm,
+    ...(Platform.OS === "web" ? { maxWidth: 680, alignSelf: "center", width: "100%" } : {}),
   },
   cardDone: {
     opacity: 0.7,

@@ -1,6 +1,7 @@
 import { Feather } from "@expo/vector-icons";
 import React from "react";
 import {
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -78,6 +79,7 @@ export default function FilterTabs({
 const styles = StyleSheet.create({
   wrapper: {
     marginBottom: theme.spacing.sm,
+    ...(Platform.OS === "web" ? { maxWidth: 720, alignSelf: "center", width: "100%" } : {}),
   },
   label: {
     fontSize: theme.fontSize.xs,

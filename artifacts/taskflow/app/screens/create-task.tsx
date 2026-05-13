@@ -87,6 +87,7 @@ export default function CreateTaskScreen() {
             paddingBottom:
               (Platform.OS === "web" ? 32 : insets.bottom) + 32,
           },
+          Platform.OS === "web" ? { maxWidth: 720, alignSelf: "center", width: "100%" } : {},
         ]}
         keyboardShouldPersistTaps="handled"
       >
