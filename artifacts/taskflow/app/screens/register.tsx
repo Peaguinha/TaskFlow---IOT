@@ -2,6 +2,7 @@ import { Feather } from "@expo/vector-icons";
 import React, { useState } from "react";
 import {
   KeyboardAvoidingView,
+  KeyboardTypeOptions,
   Platform,
   ScrollView,
   StyleSheet,
@@ -11,8 +12,21 @@ import {
   View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+
 import { navigate } from "../navigation/AppNavigator";
 import theme from "../styles/theme";
+
+type FeatherName = React.ComponentProps<typeof Feather>["name"];
+
+interface FormField {
+  label: string;
+  icon: FeatherName;
+  value: string;
+  onChangeText: (text: string) => void;
+  placeholder: string;
+  keyboardType: KeyboardTypeOptions;
+  autoCapitalize: "none" | "sentences" | "words" | "characters";
+}
 
 export default function RegisterScreen() {
   const insets = useSafeAreaInsets();
@@ -49,6 +63,27 @@ export default function RegisterScreen() {
     }, 800);
   };
 
+  const textFields: FormField[] = [
+    {
+      label: "Nome completo",
+      icon: "user",
+      value: name,
+      onChangeText: setName,
+      placeholder: "Seu nome",
+      keyboardType: "default",
+      autoCapitalize: "words",
+    },
+    {
+      label: "E-mail",
+      icon: "mail",
+      value: email,
+      onChangeText: setEmail,
+      placeholder: "seu@email.com",
+      keyboardType: "email-address",
+      autoCapitalize: "none",
+    },
+  ];
+
   return (
     <KeyboardAvoidingView
       style={styles.flex}
@@ -76,33 +111,12 @@ export default function RegisterScreen() {
         </View>
 
         <View style={styles.form}>
-          {[
-            {
-              label: "Nome completo",
-              icon: "user",
-              value: name,
-              onChangeText: setName,
-              placeholder: "Seu nome",
-              keyboardType: "default" as const,
-              autoCapitalize: "words" as const,
-              secure: false,
-            },
-            {
-              label: "E-mail",
-              icon: "mail",
-              value: email,
-              onChangeText: setEmail,
-              placeholder: "seu@email.com",
-              keyboardType: "email-address" as const,
-              autoCapitalize: "none" as const,
-              secure: false,
-            },
-          ].map((field) => (
+          {textFields.map((field) => (
             <View key={field.label} style={styles.field}>
               <Text style={styles.label}>{field.label}</Text>
               <View style={styles.inputWrapper}>
                 <Feather
-                  name={field.icon as any}
+                  name={field.icon}
                   size={18}
                   color={theme.colors.textMuted}
                   style={styles.inputIcon}

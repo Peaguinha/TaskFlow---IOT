@@ -9,11 +9,46 @@ import {
   View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import TaskCard from "../components/TaskCard";
 import FilterBar from "../components/FilterBar";
+import TaskCard from "../components/TaskCard";
 import { navigate } from "../navigation/AppNavigator";
 import taskService from "../services/taskService";
 import theme from "../styles/theme";
+
+type TaskStatus = "pending" | "in_progress" | "done";
+type TaskPriority = "low" | "medium" | "high";
+
+interface Task {
+  id: string;
+  title: string;
+  description: string;
+  status: TaskStatus;
+  priority: TaskPriority;
+  dueDate?: string;
+  createdAt?: string;
+  category?: string;
+}
+
+function toTask(raw: Record<string, string>): Task {
+  const status: TaskStatus =
+    raw.status === "in_progress" || raw.status === "done"
+      ? raw.status
+      : "pending";
+  const priority: TaskPriority =
+    raw.priority === "high" || raw.priority === "low"
+      ? raw.priority
+      : "medium";
+  return {
+    id: raw.id ?? "",
+    title: raw.title ?? "",
+    description: raw.description ?? "",
+    status,
+    priority,
+    dueDate: raw.dueDate,
+    createdAt: raw.createdAt,
+    category: raw.category,
+  };
+}
 
 const STATUS_OPTS = [
   { value: "all", label: "Todas" },
@@ -39,12 +74,11 @@ export default function DashboardScreen() {
   const [refreshKey, setRefreshKey] = useState(0);
 
   const stats = taskService.getStats();
-  const tasks = taskService.filter({
-    status: statusFilter,
-    priority: priorityFilter,
-  });
+  const tasks: Task[] = taskService
+    .filter({ status: statusFilter, priority: priorityFilter })
+    .map(toTask);
 
-  const handleTaskPress = useCallback((task: any) => {
+  const handleTaskPress = useCallback((task: Task) => {
     navigate.toTaskDetails(task.id);
   }, []);
 
@@ -133,7 +167,7 @@ export default function DashboardScreen() {
         ListEmptyComponent={ListEmpty}
         contentContainerStyle={{ paddingBottom: bottomPad + 24 }}
         showsVerticalScrollIndicator={false}
-        scrollEnabled={!!tasks}
+        scrollEnabled={tasks.length > 0}
       />
     </View>
   );

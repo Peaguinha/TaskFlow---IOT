@@ -3,7 +3,6 @@ import * as Haptics from "expo-haptics";
 import { useLocalSearchParams } from "expo-router";
 import React, { useState } from "react";
 import {
-  Alert,
   Platform,
   ScrollView,
   StyleSheet,
@@ -12,14 +11,24 @@ import {
   View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+
 import StatusBadge from "../components/StatusBadge";
 import { navigate } from "../navigation/AppNavigator";
 import taskService from "../services/taskService";
 import theme from "../styles/theme";
 
+type FeatherName = React.ComponentProps<typeof Feather>["name"];
 type Status = "pending" | "in_progress" | "done";
+type Priority = "low" | "medium" | "high";
 
-const STATUS_TRANSITIONS: Record<Status, { next: Status; label: string; icon: string; color: string }> = {
+interface StatusTransition {
+  next: Status;
+  label: string;
+  icon: FeatherName;
+  color: string;
+}
+
+const STATUS_TRANSITIONS: Record<Status, StatusTransition> = {
   pending: {
     next: "in_progress",
     label: "Iniciar Tarefa",
@@ -40,6 +49,27 @@ const STATUS_TRANSITIONS: Record<Status, { next: Status; label: string; icon: st
   },
 };
 
+interface InfoRow {
+  icon: FeatherName;
+  label: string;
+  value: string;
+  valueColor: string;
+}
+
+const PRIORITY_CONFIG: Record<Priority, { label: string; color: string }> = {
+  low: { label: "Baixa", color: theme.colors.priorityLow },
+  medium: { label: "Média", color: theme.colors.priorityMedium },
+  high: { label: "Alta", color: theme.colors.priorityHigh },
+};
+
+function isStatus(value: string): value is Status {
+  return value === "pending" || value === "in_progress" || value === "done";
+}
+
+function isPriority(value: string): value is Priority {
+  return value === "low" || value === "medium" || value === "high";
+}
+
 export default function TaskDetailsScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const insets = useSafeAreaInsets();
@@ -59,7 +89,10 @@ export default function TaskDetailsScreen() {
     );
   }
 
-  const transition = STATUS_TRANSITIONS[task.status as Status];
+  const taskStatus: Status = isStatus(task.status) ? task.status : "pending";
+  const taskPriority: Priority = isPriority(task.priority) ? task.priority : "medium";
+  const transition = STATUS_TRANSITIONS[taskStatus];
+  const pc = PRIORITY_CONFIG[taskPriority];
 
   const handleStatusChange = () => {
     const updated = taskService.updateStatus(task.id, transition.next);
@@ -71,13 +104,32 @@ export default function TaskDetailsScreen() {
     }
   };
 
-  const priorityConfig = {
-    low: { label: "Baixa", color: theme.colors.priorityLow },
-    medium: { label: "Média", color: theme.colors.priorityMedium },
-    high: { label: "Alta", color: theme.colors.priorityHigh },
-  } as Record<string, { label: string; color: string }>;
-
-  const pc = priorityConfig[task.priority] ?? { label: "—", color: theme.colors.textMuted };
+  const infoRows: InfoRow[] = [
+    {
+      icon: "flag",
+      label: "Prioridade",
+      value: pc.label,
+      valueColor: pc.color,
+    },
+    {
+      icon: "tag",
+      label: "Categoria",
+      value: task.category || "—",
+      valueColor: theme.colors.text,
+    },
+    {
+      icon: "calendar",
+      label: "Vencimento",
+      value: task.dueDate || "Sem data",
+      valueColor: theme.colors.text,
+    },
+    {
+      icon: "clock",
+      label: "Criado em",
+      value: task.createdAt || "—",
+      valueColor: theme.colors.textSecondary,
+    },
+  ];
 
   return (
     <View style={styles.container}>
@@ -87,8 +139,8 @@ export default function TaskDetailsScreen() {
       >
         <View style={styles.heroCard}>
           <View style={styles.badgesRow}>
-            <StatusBadge value={task.status as any} type="status" />
-            <StatusBadge value={task.priority as any} type="priority" />
+            <StatusBadge value={taskStatus} type="status" />
+            <StatusBadge value={taskPriority} type="priority" />
           </View>
           <Text style={styles.title}>{task.title}</Text>
         </View>
@@ -103,38 +155,20 @@ export default function TaskDetailsScreen() {
         <View style={styles.card}>
           <Text style={styles.cardTitle}>Informações</Text>
           <View style={styles.infoList}>
-            {[
-              {
-                icon: "flag",
-                label: "Prioridade",
-                value: pc.label,
-                valueColor: pc.color,
-              },
-              {
-                icon: "tag",
-                label: "Categoria",
-                value: task.category || "—",
-                valueColor: theme.colors.text,
-              },
-              {
-                icon: "calendar",
-                label: "Vencimento",
-                value: task.dueDate || "Sem data",
-                valueColor: theme.colors.text,
-              },
-              {
-                icon: "clock",
-                label: "Criado em",
-                value: task.createdAt || "—",
-                valueColor: theme.colors.textSecondary,
-              },
-            ].map((row, i, arr) => (
+            {infoRows.map((row, i) => (
               <View
                 key={row.label}
-                style={[styles.infoRow, i < arr.length - 1 && styles.infoRowBorder]}
+                style={[
+                  styles.infoRow,
+                  i < infoRows.length - 1 && styles.infoRowBorder,
+                ]}
               >
                 <View style={styles.infoLeft}>
-                  <Feather name={row.icon as any} size={16} color={theme.colors.textMuted} />
+                  <Feather
+                    name={row.icon}
+                    size={16}
+                    color={theme.colors.textMuted}
+                  />
                   <Text style={styles.infoLabel}>{row.label}</Text>
                 </View>
                 <Text style={[styles.infoValue, { color: row.valueColor }]}>
@@ -146,18 +180,13 @@ export default function TaskDetailsScreen() {
         </View>
       </ScrollView>
 
-      <View
-        style={[
-          styles.bottomBar,
-          { paddingBottom: bottomPad + 12 },
-        ]}
-      >
+      <View style={[styles.bottomBar, { paddingBottom: bottomPad + 12 }]}>
         <TouchableOpacity
           style={[styles.actionBtn, { backgroundColor: transition.color }]}
           onPress={handleStatusChange}
           activeOpacity={0.85}
         >
-          <Feather name={transition.icon as any} size={20} color="#FFFFFF" />
+          <Feather name={transition.icon} size={20} color="#FFFFFF" />
           <Text style={styles.actionBtnText}>{transition.label}</Text>
         </TouchableOpacity>
       </View>

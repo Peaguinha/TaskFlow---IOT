@@ -10,8 +10,22 @@ import {
   View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+
 import { navigate } from "../navigation/AppNavigator";
 import theme from "../styles/theme";
+
+type FeatherName = React.ComponentProps<typeof Feather>["name"];
+
+interface Feature {
+  icon: FeatherName;
+  text: string;
+}
+
+const FEATURES: Feature[] = [
+  { icon: "check-circle", text: "Crie e gerencie tarefas facilmente" },
+  { icon: "bar-chart-2", text: "Filtre por status e prioridade" },
+  { icon: "zap", text: "Acompanhe seu progresso diário" },
+];
 
 export default function WelcomeScreen() {
   const insets = useSafeAreaInsets();
@@ -38,18 +52,16 @@ export default function WelcomeScreen() {
             />
           </View>
           <Text style={styles.appName}>TaskFlow</Text>
-          <Text style={styles.tagline}>Organize suas tarefas,{"\n"}alcance seus objetivos</Text>
+          <Text style={styles.tagline}>
+            Organize suas tarefas,{"\n"}alcance seus objetivos
+          </Text>
         </View>
 
         <View style={styles.features}>
-          {[
-            { icon: "check-circle", text: "Crie e gerencie tarefas facilmente" },
-            { icon: "bar-chart-2", text: "Filtre por status e prioridade" },
-            { icon: "zap", text: "Acompanhe seu progresso diário" },
-          ].map((item) => (
+          {FEATURES.map((item) => (
             <View key={item.text} style={styles.featureRow}>
               <View style={styles.featureIcon}>
-                <Feather name={item.icon as any} size={18} color="#4F46E5" />
+                <Feather name={item.icon} size={18} color="#4F46E5" />
               </View>
               <Text style={styles.featureText}>{item.text}</Text>
             </View>
