@@ -71,7 +71,7 @@ app/
   context/        # Contextos globais (TaskContext, AuthContext)
   data/           # Dados mockados para a Fase 1
   styles/         # Tema, cores e estilos globais
-  services/       # Serviços simulados (taskService, storageService placeholder)
+  services/       # Serviços simulados (storageService placeholder para Fase 2)
 ```
 
 ---
