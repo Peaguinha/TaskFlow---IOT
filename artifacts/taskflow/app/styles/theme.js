@@ -1,24 +1,23 @@
 const theme = {
   colors: {
-    primary: "#4F46E5",
-    primaryDark: "#3730A3",
-    primaryLight: "#818CF8",
-    secondary: "#6366F1",
+    primary: "#2563EB",
+    primaryDark: "#1E3A8A",
+    primaryLight: "#DBEAFE",
 
-    background: "#F8F7FF",
+    background: "#F8FAFC",
     surface: "#FFFFFF",
-    surfaceElevated: "#F1F0FF",
+    surfaceElevated: "#EFF6FF",
 
-    text: "#1E1B4B",
+    text: "#334155",
     textSecondary: "#64748B",
     textMuted: "#94A3B8",
     textOnPrimary: "#FFFFFF",
 
     border: "#E2E8F0",
-    borderLight: "#EEF2FF",
+    borderLight: "#DBEAFE",
 
-    success: "#10B981",
-    successLight: "#D1FAE5",
+    success: "#22C55E",
+    successLight: "#DCFCE7",
     warning: "#F59E0B",
     warningLight: "#FEF3C7",
     danger: "#EF4444",
@@ -26,13 +25,13 @@ const theme = {
 
     statusPending: "#F59E0B",
     statusPendingBg: "#FEF3C7",
-    statusInProgress: "#4F46E5",
-    statusInProgressBg: "#EEF2FF",
-    statusDone: "#10B981",
-    statusDoneBg: "#D1FAE5",
+    statusInProgress: "#2563EB",
+    statusInProgressBg: "#DBEAFE",
+    statusDone: "#22C55E",
+    statusDoneBg: "#DCFCE7",
 
-    priorityLow: "#10B981",
-    priorityLowBg: "#D1FAE5",
+    priorityLow: "#22C55E",
+    priorityLowBg: "#DCFCE7",
     priorityMedium: "#F59E0B",
     priorityMediumBg: "#FEF3C7",
     priorityHigh: "#EF4444",
@@ -75,23 +74,23 @@ const theme = {
 
   shadow: {
     sm: {
-      shadowColor: "#4F46E5",
+      shadowColor: "#1E3A8A",
       shadowOffset: { width: 0, height: 2 },
       shadowOpacity: 0.06,
       shadowRadius: 4,
       elevation: 2,
     },
     md: {
-      shadowColor: "#4F46E5",
+      shadowColor: "#1E3A8A",
       shadowOffset: { width: 0, height: 4 },
-      shadowOpacity: 0.1,
+      shadowOpacity: 0.08,
       shadowRadius: 8,
       elevation: 4,
     },
     lg: {
-      shadowColor: "#4F46E5",
+      shadowColor: "#1E3A8A",
       shadowOffset: { width: 0, height: 8 },
-      shadowOpacity: 0.15,
+      shadowOpacity: 0.12,
       shadowRadius: 16,
       elevation: 8,
     },

@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "../components/Button";
+import Header from "../components/Header";
 import Input from "../components/Input";
 import { navigate } from "../navigation/navigationRef";
 import taskService from "../services/taskService";
@@ -71,118 +72,122 @@ export default function CreateTaskScreen() {
           styles.content,
           {
             paddingBottom:
-              (Platform.OS === "web" ? 34 : insets.bottom) + theme.spacing.xl,
+              (Platform.OS === "web" ? 32 : insets.bottom) + 32,
           },
         ]}
         keyboardShouldPersistTaps="handled"
       >
-        <Input
-          label="Título *"
-          value={title}
-          onChangeText={setTitle}
-          placeholder="O que precisa ser feito?"
-          maxLength={100}
-          error={error && !title.trim() ? error : undefined}
-        />
+        <Header title="Nova Tarefa" subtitle="Preencha os dados da tarefa" />
 
-        <Input
-          label="Descrição"
-          value={description}
-          onChangeText={setDescription}
-          placeholder="Adicione mais detalhes sobre a tarefa..."
-          multiline
-          numberOfLines={4}
-          maxLength={500}
-        />
-        <Text style={styles.charCount}>{description.length}/500</Text>
+        <View style={styles.form}>
+          <Input
+            label="Título *"
+            value={title}
+            onChangeText={setTitle}
+            placeholder="O que precisa ser feito?"
+            maxLength={100}
+            error={error && !title.trim() ? error : undefined}
+          />
 
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Prioridade</Text>
-          <View style={styles.priorityRow}>
-            {PRIORITIES.map((p) => (
-              <TouchableOpacity
-                key={p.value}
-                style={[
-                  styles.priorityBtn,
-                  priority === p.value && {
-                    backgroundColor: p.color,
-                    borderColor: p.color,
-                  },
-                ]}
-                onPress={() => setPriority(p.value)}
-                activeOpacity={0.75}
-              >
-                <View
+          <Input
+            label="Descrição"
+            value={description}
+            onChangeText={setDescription}
+            placeholder="Adicione mais detalhes sobre a tarefa..."
+            multiline
+            numberOfLines={4}
+            maxLength={500}
+          />
+          <Text style={styles.charCount}>{description.length}/500</Text>
+
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Prioridade</Text>
+            <View style={styles.priorityRow}>
+              {PRIORITIES.map((p) => (
+                <TouchableOpacity
+                  key={p.value}
                   style={[
-                    styles.priorityDot,
-                    {
-                      backgroundColor:
-                        priority === p.value ? "#FFFFFF" : p.color,
+                    styles.priorityBtn,
+                    priority === p.value && {
+                      backgroundColor: p.color,
+                      borderColor: p.color,
                     },
                   ]}
-                />
-                <Text
-                  style={[
-                    styles.priorityLabel,
-                    priority === p.value && styles.priorityLabelActive,
-                  ]}
+                  onPress={() => setPriority(p.value)}
+                  activeOpacity={0.75}
                 >
-                  {p.label}
-                </Text>
-              </TouchableOpacity>
-            ))}
+                  <View
+                    style={[
+                      styles.priorityDot,
+                      {
+                        backgroundColor:
+                          priority === p.value ? "#FFFFFF" : p.color,
+                      },
+                    ]}
+                  />
+                  <Text
+                    style={[
+                      styles.priorityLabel,
+                      priority === p.value && styles.priorityLabelActive,
+                    ]}
+                  >
+                    {p.label}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
           </View>
-        </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Categoria</Text>
-          <View style={styles.categoryGrid}>
-            {CATEGORIES.map((cat) => (
-              <TouchableOpacity
-                key={cat}
-                style={[
-                  styles.categoryBtn,
-                  category === cat && styles.categoryBtnActive,
-                ]}
-                onPress={() => setCategory(cat)}
-                activeOpacity={0.75}
-              >
-                <Text
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Categoria</Text>
+            <View style={styles.categoryGrid}>
+              {CATEGORIES.map((cat) => (
+                <TouchableOpacity
+                  key={cat}
                   style={[
-                    styles.categoryLabel,
-                    category === cat && styles.categoryLabelActive,
+                    styles.categoryBtn,
+                    category === cat && styles.categoryBtnActive,
                   ]}
+                  onPress={() => setCategory(cat)}
+                  activeOpacity={0.75}
                 >
-                  {cat}
-                </Text>
-              </TouchableOpacity>
-            ))}
+                  <Text
+                    style={[
+                      styles.categoryLabel,
+                      category === cat && styles.categoryLabelActive,
+                    ]}
+                  >
+                    {cat}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
           </View>
-        </View>
 
-        <Input
-          label="Data de Vencimento"
-          value={dueDate}
-          onChangeText={setDueDate}
-          placeholder="AAAA-MM-DD (ex: 2026-05-30)"
-          icon="calendar"
-          keyboardType="numbers-and-punctuation"
-        />
+          <Input
+            label="Data de Vencimento"
+            value={dueDate}
+            onChangeText={setDueDate}
+            placeholder="AAAA-MM-DD (ex: 2026-05-30)"
+            icon="calendar"
+            keyboardType="numbers-and-punctuation"
+          />
 
-        <View style={styles.actions}>
-          <Button
-            title="Cancelar"
-            variant="outline"
-            onPress={navigate.back}
-            style={{ flex: 1 }}
-          />
-          <Button
-            title="Criar Tarefa"
-            variant="primary"
-            onPress={handleCreate}
-            icon={<Feather name="plus" size={18} color="#FFFFFF" />}
-            style={{ flex: 2 }}
-          />
+          <View style={styles.actions}>
+            <Button
+              title="Cancelar"
+              variant="outline"
+              onPress={navigate.back}
+              style={{ flex: 1 }}
+            />
+            <Button
+              title="Criar Tarefa"
+              variant="primary"
+              onPress={handleCreate}
+              icon={<Feather name="plus" size={18} color="#FFFFFF" />}
+              style={{ flex: 2 }}
+            />
+          </View>
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
@@ -192,27 +197,31 @@ export default function CreateTaskScreen() {
 const styles = StyleSheet.create({
   flex: { flex: 1, backgroundColor: theme.colors.background },
   content: {
-    paddingHorizontal: theme.spacing.md,
-    paddingTop: theme.spacing.lg,
-    gap: theme.spacing.lg,
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    ...(Platform.OS === "web" ? { maxWidth: 720, alignSelf: "center", width: "100%" } : {}),
   },
-  section: { gap: theme.spacing.sm },
+  form: {
+    gap: 16,
+    marginTop: 8,
+  },
+  section: { gap: 8 },
   sectionTitle: {
-    fontSize: theme.fontSize.sm,
-    fontWeight: theme.fontWeight.semibold as "600",
-    color: theme.colors.text,
+    fontSize: 12,
+    fontWeight: "600",
+    color: theme.colors.textSecondary,
     textTransform: "uppercase",
     letterSpacing: 0.5,
   },
   charCount: {
-    fontSize: theme.fontSize.xs,
+    fontSize: 11,
     color: theme.colors.textMuted,
     textAlign: "right",
-    marginTop: -theme.spacing.md,
+    marginTop: -12,
   },
   priorityRow: {
     flexDirection: "row",
-    gap: theme.spacing.sm,
+    gap: 8,
   },
   priorityBtn: {
     flex: 1,
@@ -221,7 +230,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     gap: 6,
     paddingVertical: 12,
-    borderRadius: theme.borderRadius.md,
+    borderRadius: 12,
     borderWidth: 1.5,
     borderColor: theme.colors.border,
     backgroundColor: theme.colors.surface,
@@ -232,8 +241,8 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   priorityLabel: {
-    fontSize: theme.fontSize.sm,
-    fontWeight: theme.fontWeight.medium as "500",
+    fontSize: 13,
+    fontWeight: "500",
     color: theme.colors.textSecondary,
   },
   priorityLabelActive: {
@@ -242,12 +251,12 @@ const styles = StyleSheet.create({
   categoryGrid: {
     flexDirection: "row",
     flexWrap: "wrap",
-    gap: theme.spacing.sm,
+    gap: 8,
   },
   categoryBtn: {
     paddingHorizontal: 14,
     paddingVertical: 8,
-    borderRadius: theme.borderRadius.full,
+    borderRadius: 9999,
     backgroundColor: theme.colors.surface,
     borderWidth: 1.5,
     borderColor: theme.colors.border,
@@ -257,17 +266,17 @@ const styles = StyleSheet.create({
     borderColor: theme.colors.primary,
   },
   categoryLabel: {
-    fontSize: theme.fontSize.sm,
+    fontSize: 13,
     color: theme.colors.textSecondary,
-    fontWeight: theme.fontWeight.medium as "500",
+    fontWeight: "500",
   },
   categoryLabelActive: {
     color: theme.colors.primary,
-    fontWeight: theme.fontWeight.semibold as "600",
+    fontWeight: "600",
   },
   actions: {
     flexDirection: "row",
-    gap: theme.spacing.md,
-    marginTop: theme.spacing.sm,
+    gap: 12,
+    marginTop: 8,
   },
 });

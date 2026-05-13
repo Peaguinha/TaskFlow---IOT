@@ -50,7 +50,7 @@ export default function LoginScreen() {
           styles.content,
           {
             paddingBottom:
-              (Platform.OS === "web" ? 34 : insets.bottom) + theme.spacing.xl,
+              (Platform.OS === "web" ? 32 : insets.bottom) + 32,
           },
         ]}
         keyboardShouldPersistTaps="handled"
@@ -86,8 +86,8 @@ export default function LoginScreen() {
             </View>
           ) : null}
 
-          <View style={styles.simulatedNote}>
-            <Text style={styles.simulatedText}>
+          <View style={styles.infoBox}>
+            <Text style={styles.infoText}>
               Autenticação simulada — qualquer e-mail e senha funcionam
             </Text>
           </View>
@@ -114,30 +114,31 @@ export default function LoginScreen() {
 const styles = StyleSheet.create({
   flex: { flex: 1, backgroundColor: theme.colors.background },
   content: {
-    paddingHorizontal: theme.spacing.lg,
-    paddingTop: theme.spacing.xl,
+    paddingHorizontal: 24,
+    paddingTop: 24,
+    ...(Platform.OS === "web" ? { maxWidth: 720, alignSelf: "center", width: "100%" } : {}),
   },
   form: {
-    gap: theme.spacing.md,
-    marginTop: theme.spacing.lg,
-    marginBottom: theme.spacing.xl,
+    gap: 16,
+    marginTop: 16,
+    marginBottom: 32,
   },
   errorBox: {
     backgroundColor: theme.colors.dangerLight,
-    padding: theme.spacing.sm,
-    borderRadius: theme.borderRadius.sm,
+    padding: 12,
+    borderRadius: 10,
   },
   errorText: {
-    fontSize: theme.fontSize.sm,
+    fontSize: 13,
     color: theme.colors.danger,
   },
-  simulatedNote: {
+  infoBox: {
     backgroundColor: theme.colors.surfaceElevated,
-    padding: theme.spacing.sm,
-    borderRadius: theme.borderRadius.sm,
+    padding: 12,
+    borderRadius: 10,
   },
-  simulatedText: {
-    fontSize: theme.fontSize.xs,
+  infoText: {
+    fontSize: 12,
     color: theme.colors.textSecondary,
     lineHeight: 18,
   },
@@ -147,12 +148,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   footerText: {
-    fontSize: theme.fontSize.md,
+    fontSize: 15,
     color: theme.colors.textSecondary,
   },
   footerLink: {
-    fontSize: theme.fontSize.md,
+    fontSize: 15,
     color: theme.colors.primary,
-    fontWeight: theme.fontWeight.semibold as "600",
+    fontWeight: "600",
   },
 });

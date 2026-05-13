@@ -68,8 +68,8 @@ const PRIORITY_TABS = [
 
 export default function DashboardScreen() {
   const insets = useSafeAreaInsets();
-  const topPad = Platform.OS === "web" ? 67 : insets.top;
-  const bottomPad = Platform.OS === "web" ? 34 : insets.bottom;
+  const topPad = Platform.OS === "web" ? 48 : insets.top;
+  const bottomPad = Platform.OS === "web" ? 32 : insets.bottom;
 
   const [statusFilter, setStatusFilter] = useState("all");
   const [priorityFilter, setPriorityFilter] = useState("all");
@@ -151,7 +151,13 @@ export default function DashboardScreen() {
   );
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
+    <View
+      style={[
+        styles.container,
+        { backgroundColor: theme.colors.background },
+        Platform.OS === "web" ? { maxWidth: 720, alignSelf: "center", width: "100%" } : {},
+      ]}
+    >
       <FlatList
         data={tasks}
         keyExtractor={(item) => item.id}
@@ -183,24 +189,24 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-end",
-    paddingHorizontal: theme.spacing.md,
-    paddingBottom: theme.spacing.lg,
+    paddingHorizontal: 20,
+    paddingBottom: 20,
     backgroundColor: theme.colors.primary,
   },
   greeting: {
-    fontSize: theme.fontSize.xxl,
-    fontWeight: theme.fontWeight.bold as "700",
+    fontSize: 24,
+    fontWeight: "700",
     color: "#FFFFFF",
   },
   subtitle: {
-    fontSize: theme.fontSize.md,
+    fontSize: 15,
     color: "rgba(255,255,255,0.75)",
-    marginTop: 2,
+    marginTop: 4,
   },
   addBtn: {
-    width: 46,
-    height: 46,
-    borderRadius: 23,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     backgroundColor: "rgba(255,255,255,0.2)",
     alignItems: "center",
     justifyContent: "center",
@@ -208,22 +214,22 @@ const styles = StyleSheet.create({
   statsRow: {
     flexDirection: "row",
     backgroundColor: theme.colors.surface,
-    marginHorizontal: theme.spacing.md,
+    marginHorizontal: 20,
     marginTop: -20,
-    borderRadius: theme.borderRadius.lg,
-    padding: theme.spacing.md,
+    borderRadius: 16,
+    padding: 16,
     gap: 4,
     ...theme.shadow.md,
   },
   statCard: {
     flex: 1,
     alignItems: "center",
-    padding: theme.spacing.xs,
+    paddingVertical: 4,
   },
   statNumber: {
-    fontSize: theme.fontSize.xxl,
-    fontWeight: theme.fontWeight.bold as "700",
-    lineHeight: 30,
+    fontSize: 22,
+    fontWeight: "700",
+    lineHeight: 28,
   },
   statLabel: {
     fontSize: 10,
@@ -232,20 +238,21 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   filtersSection: {
-    paddingTop: theme.spacing.lg,
-    paddingBottom: theme.spacing.sm,
-    gap: theme.spacing.md,
+    paddingTop: 24,
+    paddingBottom: 8,
+    gap: 16,
   },
   listHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingHorizontal: theme.spacing.md,
-    paddingBottom: theme.spacing.sm,
+    paddingHorizontal: 20,
+    paddingBottom: 8,
+    paddingTop: 8,
   },
   listTitle: {
-    fontSize: theme.fontSize.md,
-    fontWeight: theme.fontWeight.semibold as "600",
+    fontSize: 15,
+    fontWeight: "600",
     color: theme.colors.text,
   },
 });

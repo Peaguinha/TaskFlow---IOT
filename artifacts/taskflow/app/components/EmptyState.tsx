@@ -23,7 +23,9 @@ export default function EmptyState({
 }: EmptyStateProps) {
   return (
     <View style={styles.container}>
-      <Feather name={icon} size={48} color={theme.colors.border} />
+      <View style={styles.iconCircle}>
+        <Feather name={icon} size={32} color={theme.colors.primary} />
+      </View>
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.message}>{message}</Text>
       {buttonTitle && onButtonPress ? (
@@ -42,20 +44,29 @@ const styles = StyleSheet.create({
     paddingHorizontal: theme.spacing.xl,
     gap: theme.spacing.sm,
   },
+  iconCircle: {
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    backgroundColor: theme.colors.primaryLight,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: theme.spacing.sm,
+  },
   title: {
     fontSize: theme.fontSize.lg,
     fontWeight: theme.fontWeight.semibold as "600",
-    color: theme.colors.textSecondary,
+    color: theme.colors.text,
     marginTop: theme.spacing.sm,
   },
   message: {
     fontSize: theme.fontSize.md,
-    color: theme.colors.textMuted,
+    color: theme.colors.textSecondary,
     textAlign: "center",
     lineHeight: 22,
   },
   buttonWrap: {
-    marginTop: theme.spacing.sm,
-    minWidth: 200,
+    marginTop: theme.spacing.md,
+    minWidth: 220,
   },
 });

@@ -7,11 +7,11 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "../components/Button";
+import Header from "../components/Header";
 import StatusBadge from "../components/StatusBadge";
 import type { RootStackParamList } from "../navigation/navigationRef";
 import { navigate } from "../navigation/navigationRef";
@@ -70,7 +70,7 @@ export default function TaskDetailsScreen() {
   const route = useRoute<RouteProp<RootStackParamList, "TaskDetails">>();
   const { id } = route.params;
   const insets = useSafeAreaInsets();
-  const bottomPad = Platform.OS === "web" ? 34 : insets.bottom;
+  const bottomPad = Platform.OS === "web" ? 32 : insets.bottom;
 
   const [task, setTask] = useState(() => taskService.getById(id ?? ""));
 
@@ -131,7 +131,10 @@ export default function TaskDetailsScreen() {
   return (
     <View style={styles.container}>
       <ScrollView
-        contentContainerStyle={{ paddingBottom: bottomPad + 100 }}
+        contentContainerStyle={[
+          { paddingBottom: bottomPad + 120 },
+          Platform.OS === "web" ? { maxWidth: 720, alignSelf: "center", width: "100%" } : {},
+        ]}
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.heroCard}>
@@ -195,38 +198,39 @@ const styles = StyleSheet.create({
   },
   heroCard: {
     backgroundColor: theme.colors.primary,
-    padding: theme.spacing.lg,
-    paddingBottom: theme.spacing.xl,
-    gap: theme.spacing.md,
+    padding: 24,
+    paddingBottom: 32,
+    gap: 12,
+    ...(Platform.OS === "web" ? { maxWidth: 720, alignSelf: "center", width: "100%" } : {}),
   },
   badgesRow: {
     flexDirection: "row",
-    gap: theme.spacing.sm,
+    gap: 8,
   },
   title: {
-    fontSize: theme.fontSize.xxl,
-    fontWeight: theme.fontWeight.bold as "700",
+    fontSize: 22,
+    fontWeight: "700",
     color: "#FFFFFF",
-    lineHeight: 32,
+    lineHeight: 30,
   },
   card: {
     backgroundColor: theme.colors.surface,
-    marginHorizontal: theme.spacing.md,
-    marginTop: theme.spacing.md,
-    borderRadius: theme.borderRadius.lg,
-    padding: theme.spacing.md,
-    gap: theme.spacing.md,
+    marginHorizontal: 20,
+    marginTop: 16,
+    borderRadius: 16,
+    padding: 20,
+    gap: 12,
     ...theme.shadow.sm,
   },
   cardTitle: {
-    fontSize: theme.fontSize.sm,
-    fontWeight: theme.fontWeight.semibold as "600",
+    fontSize: 12,
+    fontWeight: "600",
     color: theme.colors.textSecondary,
     textTransform: "uppercase",
     letterSpacing: 0.5,
   },
   description: {
-    fontSize: theme.fontSize.md,
+    fontSize: 15,
     color: theme.colors.text,
     lineHeight: 24,
   },
@@ -246,15 +250,15 @@ const styles = StyleSheet.create({
   infoLeft: {
     flexDirection: "row",
     alignItems: "center",
-    gap: theme.spacing.sm,
+    gap: 10,
   },
   infoLabel: {
-    fontSize: theme.fontSize.md,
+    fontSize: 15,
     color: theme.colors.textSecondary,
   },
   infoValue: {
-    fontSize: theme.fontSize.md,
-    fontWeight: theme.fontWeight.semibold as "600",
+    fontSize: 15,
+    fontWeight: "600",
   },
   bottomBar: {
     position: "absolute",
@@ -262,25 +266,27 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     backgroundColor: theme.colors.surface,
-    paddingHorizontal: theme.spacing.md,
-    paddingTop: theme.spacing.md,
+    paddingHorizontal: 20,
+    paddingTop: 16,
     borderTopWidth: 1,
     borderTopColor: theme.colors.border,
+    ...(Platform.OS === "web" ? { maxWidth: 720, alignSelf: "center" } : {}),
   },
   notFound: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    gap: theme.spacing.md,
+    gap: 12,
     backgroundColor: theme.colors.background,
+    padding: 24,
   },
   notFoundTitle: {
-    fontSize: theme.fontSize.lg,
+    fontSize: 17,
     color: theme.colors.textSecondary,
-    fontWeight: theme.fontWeight.semibold as "600",
+    fontWeight: "600",
   },
   notFoundBtnWrap: {
-    marginTop: theme.spacing.sm,
+    marginTop: 8,
     minWidth: 220,
   },
 });

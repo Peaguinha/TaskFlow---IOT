@@ -1,0 +1,81 @@
+Agora aplique uma identidade visual moderna, limpa e profissional no TaskFlow.
+
+Crie ou ajuste os arquivos:
+
+app/styles/colors.js
+app/styles/globalStyles.js
+
+Use a seguinte paleta:
+
+- Azul escuro: #1E3A8A
+- Azul principal: #2563EB
+- Azul claro: #DBEAFE
+- Fundo: #F8FAFC
+- Texto: #334155
+- Verde: #22C55E
+- Amarelo: #F59E0B
+- Vermelho: #EF4444
+- Branco: #FFFFFF
+- Cinza claro: #E2E8F0
+- Cinza médio: #64748B
+
+Objetivo visual:
+- Interface acadêmica, limpa e apresentável.
+- Cards com bordas arredondadas.
+- Espaçamento confortável.
+- Botões destacados.
+- Boa hierarquia visual.
+- Textos bem legíveis.
+- Visual bonito tanto no celular quanto na web.
+
+Ajuste todas as telas:
+
+1. WelcomeScreen:
+   - Deve parecer uma tela inicial profissional.
+   - Nome TaskFlow em destaque.
+   - Breve explicação do app.
+   - Botões de Login e Cadastro.
+
+2. LoginScreen:
+   - Formulário centralizado.
+   - Campos bem organizados.
+   - Botão principal evidente.
+   - Link para cadastro.
+
+3. RegisterScreen:
+   - Formulário limpo.
+   - Campos de nome, e-mail e senha.
+   - Botão de criar conta.
+   - Link para login.
+
+4. DashboardScreen:
+   - Saudação no topo.
+   - Cards de resumo visualmente organizados.
+   - Lista de tarefas bem espaçada.
+   - Filtros visíveis.
+   - Botão para criar nova tarefa.
+
+5. CreateTaskScreen:
+   - Formulário organizado.
+   - Campos bem separados.
+   - Seletores de prioridade e status claros.
+   - Botão de salvar destacado.
+
+6. TaskDetailsScreen:
+   - Informações da tarefa com boa hierarquia.
+   - Status e prioridade em badges.
+   - Botões para atualizar status.
+   - Botão de voltar.
+
+Responsividade:
+- O layout deve funcionar bem no mobile.
+- Na web, limitar a largura máxima do conteúdo para não ficar esticado demais.
+- Centralizar containers principais na web.
+- Usar ScrollView quando necessário.
+- Evitar cortes de texto ou botões fora da tela.
+
+Regras:
+- Não mudar o escopo funcional.
+- Não remover funcionalidades existentes.
+- Não implementar backend.
+- Garantir que tudo continue rodando no Replit.

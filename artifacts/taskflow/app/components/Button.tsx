@@ -18,6 +18,7 @@ interface ButtonProps {
   loading?: boolean;
   icon?: React.ReactNode;
   style?: object;
+  textColor?: string;
 }
 
 const VARIANT_STYLES: Record<
@@ -32,7 +33,7 @@ const VARIANT_STYLES: Record<
   },
   secondary: {
     bg: theme.colors.surfaceElevated,
-    text: theme.colors.primary,
+    text: theme.colors.primaryDark,
     border: theme.colors.surfaceElevated,
     borderWidth: 0,
   },
@@ -58,9 +59,11 @@ export default function Button({
   loading = false,
   icon,
   style,
+  textColor,
 }: ButtonProps) {
   const v = VARIANT_STYLES[variant];
   const isDisabled = disabled || loading;
+  const finalTextColor = textColor ?? v.text;
 
   return (
     <TouchableOpacity
@@ -73,17 +76,17 @@ export default function Button({
           backgroundColor: v.bg,
           borderColor: v.border,
           borderWidth: v.borderWidth,
-          opacity: isDisabled ? 0.6 : 1,
+          opacity: isDisabled ? 0.5 : 1,
         },
         style,
       ]}
     >
       {loading ? (
-        <ActivityIndicator color={v.text} size="small" />
+        <ActivityIndicator color={finalTextColor} size="small" />
       ) : (
         <View style={styles.content}>
           {icon}
-          <Text style={[styles.text, { color: v.text }]}>{title}</Text>
+          <Text style={[styles.text, { color: finalTextColor }]}>{title}</Text>
         </View>
       )}
     </TouchableOpacity>
@@ -103,7 +106,7 @@ const styles = StyleSheet.create({
     gap: theme.spacing.sm,
   },
   text: {
-    fontSize: theme.fontSize.lg,
-    fontWeight: theme.fontWeight.bold as "700",
+    fontSize: theme.fontSize.md,
+    fontWeight: theme.fontWeight.semibold as "600",
   },
 });
