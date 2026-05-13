@@ -13,6 +13,7 @@ import Button from "../components/Button";
 import EmptyState from "../components/EmptyState";
 import FilterTabs from "../components/FilterTabs";
 import TaskCard from "../components/TaskCard";
+import { useAuth } from "../context/AuthContext";
 import { useTasks } from "../context/TaskContext";
 import { navigate } from "../navigation/navigationRef";
 import theme from "../styles/theme";
@@ -36,6 +37,7 @@ export default function DashboardScreen() {
   const topPad = Platform.OS === "web" ? 48 : insets.top;
   const bottomPad = Platform.OS === "web" ? 32 : insets.bottom;
 
+  const { user, logout } = useAuth();
   const { tasks, filterTasks, getStats } = useTasks();
   const [statusFilter, setStatusFilter] = useState("all");
   const [priorityFilter, setPriorityFilter] = useState("all");
@@ -43,6 +45,7 @@ export default function DashboardScreen() {
 
   const stats = getStats();
   const filtered = filterTasks({ status: statusFilter, priority: priorityFilter });
+  const greetingName = user?.name ?? "usuário";
 
   const handleTaskPress = useCallback((task: typeof filtered[0]) => {
     navigate.toTaskDetails(task.id);
@@ -52,20 +55,36 @@ export default function DashboardScreen() {
     setRefreshKey((k) => k + 1);
   }, []);
 
+  const handleLogout = () => {
+    logout();
+    navigate.toWelcome();
+  };
+
   const ListHeader = (
     <View>
       <View style={[styles.topBar, { paddingTop: topPad + 12 }]}>
-        <View>
-          <Text style={styles.greeting}>Olá, usuário!</Text>
-          <Text style={styles.subtitle}>Veja suas tarefas de hoje</Text>
+        <View style={styles.greetingWrap}>
+          <Text style={styles.greeting}>
+            Olá, {greetingName}!
+          </Text>
+          <Text style={styles.subtitle}>Organize suas tarefas de hoje.</Text>
         </View>
-        <TouchableOpacity
-          style={styles.addBtn}
-          onPress={navigate.toCreateTask}
-          activeOpacity={0.85}
-        >
-          <Feather name="plus" size={22} color="#FFFFFF" />
-        </TouchableOpacity>
+        <View style={styles.headerActions}>
+          <TouchableOpacity
+            style={styles.iconBtn}
+            onPress={navigate.toCreateTask}
+            activeOpacity={0.85}
+          >
+            <Feather name="plus" size={22} color="#FFFFFF" />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.iconBtn, styles.logoutBtn]}
+            onPress={handleLogout}
+            activeOpacity={0.85}
+          >
+            <Feather name="log-out" size={20} color="#FFFFFF" />
+          </TouchableOpacity>
+        </View>
       </View>
 
       <View style={styles.statsRow}>
@@ -158,6 +177,10 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
     backgroundColor: theme.colors.primary,
   },
+  greetingWrap: {
+    flex: 1,
+    paddingRight: 12,
+  },
   greeting: {
     fontSize: 24,
     fontWeight: "700",
@@ -168,13 +191,20 @@ const styles = StyleSheet.create({
     color: "rgba(255,255,255,0.75)",
     marginTop: 4,
   },
-  addBtn: {
+  headerActions: {
+    flexDirection: "row",
+    gap: 10,
+  },
+  iconBtn: {
     width: 44,
     height: 44,
     borderRadius: 22,
     backgroundColor: "rgba(255,255,255,0.2)",
     alignItems: "center",
     justifyContent: "center",
+  },
+  logoutBtn: {
+    backgroundColor: "rgba(255,255,255,0.15)",
   },
   statsRow: {
     flexDirection: "row",

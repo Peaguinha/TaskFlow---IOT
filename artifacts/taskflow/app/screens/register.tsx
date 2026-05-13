@@ -12,11 +12,13 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "../components/Button";
 import Header from "../components/Header";
 import Input from "../components/Input";
+import { useAuth } from "../context/AuthContext";
 import { navigate } from "../navigation/navigationRef";
 import theme from "../styles/theme";
 
 export default function RegisterScreen() {
   const insets = useSafeAreaInsets();
+  const { register } = useAuth();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -34,7 +36,11 @@ export default function RegisterScreen() {
       setError("Por favor, informe seu e-mail.");
       return;
     }
-    if (!password.trim() || password.length < 6) {
+    if (!password.trim()) {
+      setError("Por favor, informe sua senha.");
+      return;
+    }
+    if (password.length < 6) {
       setError("A senha deve ter pelo menos 6 caracteres.");
       return;
     }
@@ -45,6 +51,7 @@ export default function RegisterScreen() {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
+      register(name.trim(), email.trim());
       navigate.toDashboard();
     }, 800);
   };
@@ -72,7 +79,7 @@ export default function RegisterScreen() {
 
         <View style={styles.form}>
           <Input
-            label="Nome completo"
+            label="Nome completo *"
             value={name}
             onChangeText={setName}
             placeholder="Seu nome"
@@ -81,7 +88,7 @@ export default function RegisterScreen() {
           />
 
           <Input
-            label="E-mail"
+            label="E-mail *"
             value={email}
             onChangeText={setEmail}
             placeholder="seu@email.com"
@@ -91,7 +98,7 @@ export default function RegisterScreen() {
           />
 
           <Input
-            label="Senha"
+            label="Senha *"
             value={password}
             onChangeText={setPassword}
             placeholder="Mínimo 6 caracteres"
@@ -100,7 +107,7 @@ export default function RegisterScreen() {
           />
 
           <Input
-            label="Confirmar Senha"
+            label="Confirmar Senha *"
             value={confirmPassword}
             onChangeText={setConfirmPassword}
             placeholder="Repita a senha"

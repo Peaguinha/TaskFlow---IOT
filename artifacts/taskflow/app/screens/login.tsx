@@ -12,11 +12,13 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "../components/Button";
 import Header from "../components/Header";
 import Input from "../components/Input";
+import { useAuth } from "../context/AuthContext";
 import { navigate } from "../navigation/navigationRef";
 import theme from "../styles/theme";
 
 export default function LoginScreen() {
   const insets = useSafeAreaInsets();
+  const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -35,6 +37,7 @@ export default function LoginScreen() {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
+      login(email.trim());
       navigate.toDashboard();
     }, 800);
   };
