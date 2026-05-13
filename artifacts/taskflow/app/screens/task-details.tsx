@@ -2,7 +2,6 @@ import { Feather } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
 import { useRoute, RouteProp } from "@react-navigation/native";
 import React, { useState } from "react";
-import type { RootStackParamList } from "../navigation/navigationRef";
 import {
   Platform,
   ScrollView,
@@ -12,20 +11,19 @@ import {
   View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-
+import Button from "../components/Button";
 import StatusBadge from "../components/StatusBadge";
+import type { RootStackParamList } from "../navigation/navigationRef";
 import { navigate } from "../navigation/navigationRef";
 import taskService from "../services/taskService";
 import theme from "../styles/theme";
 
-type FeatherName = React.ComponentProps<typeof Feather>["name"];
 type Status = "pending" | "in_progress" | "done";
 type Priority = "low" | "medium" | "high";
 
 interface StatusTransition {
   next: Status;
   label: string;
-  icon: FeatherName;
   color: string;
 }
 
@@ -33,29 +31,19 @@ const STATUS_TRANSITIONS: Record<Status, StatusTransition> = {
   pending: {
     next: "in_progress",
     label: "Iniciar Tarefa",
-    icon: "play",
     color: theme.colors.primary,
   },
   in_progress: {
     next: "done",
     label: "Marcar como Concluída",
-    icon: "check",
     color: theme.colors.success,
   },
   done: {
     next: "pending",
     label: "Reabrir Tarefa",
-    icon: "refresh-cw",
     color: theme.colors.warning,
   },
 };
-
-interface InfoRow {
-  icon: FeatherName;
-  label: string;
-  value: string;
-  valueColor: string;
-}
 
 const PRIORITY_CONFIG: Record<Priority, { label: string; color: string }> = {
   low: { label: "Baixa", color: theme.colors.priorityLow },
@@ -71,6 +59,13 @@ function isPriority(value: string): value is Priority {
   return value === "low" || value === "medium" || value === "high";
 }
 
+interface InfoRow {
+  icon: React.ComponentProps<typeof Feather>["name"];
+  label: string;
+  value: string;
+  valueColor: string;
+}
+
 export default function TaskDetailsScreen() {
   const route = useRoute<RouteProp<RootStackParamList, "TaskDetails">>();
   const { id } = route.params;
@@ -84,9 +79,9 @@ export default function TaskDetailsScreen() {
       <View style={styles.notFound}>
         <Feather name="alert-circle" size={48} color={theme.colors.textMuted} />
         <Text style={styles.notFoundTitle}>Tarefa não encontrada</Text>
-        <TouchableOpacity onPress={navigate.toDashboard} style={styles.backBtn}>
-          <Text style={styles.backBtnText}>Voltar ao Dashboard</Text>
-        </TouchableOpacity>
+        <View style={styles.notFoundBtnWrap}>
+          <Button title="Voltar ao Dashboard" onPress={navigate.toDashboard} />
+        </View>
       </View>
     );
   }
@@ -183,14 +178,11 @@ export default function TaskDetailsScreen() {
       </ScrollView>
 
       <View style={[styles.bottomBar, { paddingBottom: bottomPad + 12 }]}>
-        <TouchableOpacity
-          style={[styles.actionBtn, { backgroundColor: transition.color }]}
+        <Button
+          title={transition.label}
           onPress={handleStatusChange}
-          activeOpacity={0.85}
-        >
-          <Feather name={transition.icon} size={20} color="#FFFFFF" />
-          <Text style={styles.actionBtnText}>{transition.label}</Text>
-        </TouchableOpacity>
+          style={{ backgroundColor: transition.color }}
+        />
       </View>
     </View>
   );
@@ -275,19 +267,6 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: theme.colors.border,
   },
-  actionBtn: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: theme.spacing.sm,
-    paddingVertical: 16,
-    borderRadius: theme.borderRadius.lg,
-  },
-  actionBtnText: {
-    color: "#FFFFFF",
-    fontSize: theme.fontSize.lg,
-    fontWeight: theme.fontWeight.bold as "700",
-  },
   notFound: {
     flex: 1,
     alignItems: "center",
@@ -300,16 +279,8 @@ const styles = StyleSheet.create({
     color: theme.colors.textSecondary,
     fontWeight: theme.fontWeight.semibold as "600",
   },
-  backBtn: {
-    backgroundColor: theme.colors.primary,
-    paddingHorizontal: theme.spacing.lg,
-    paddingVertical: 12,
-    borderRadius: theme.borderRadius.lg,
+  notFoundBtnWrap: {
     marginTop: theme.spacing.sm,
-  },
-  backBtnText: {
-    color: "#FFFFFF",
-    fontWeight: theme.fontWeight.semibold as "600",
-    fontSize: theme.fontSize.md,
+    minWidth: 220,
   },
 });

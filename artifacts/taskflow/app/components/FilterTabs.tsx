@@ -1,3 +1,4 @@
+import { Feather } from "@expo/vector-icons";
 import React from "react";
 import {
   ScrollView,
@@ -8,43 +9,63 @@ import {
 } from "react-native";
 import theme from "../styles/theme";
 
-interface FilterOption {
+type FeatherName = React.ComponentProps<typeof Feather>["name"];
+
+export interface FilterTab {
   value: string;
   label: string;
+  icon?: FeatherName;
 }
 
-interface FilterBarProps {
-  label: string;
-  options: FilterOption[];
-  selected: string;
-  onSelect: (value: string) => void;
+interface FilterTabsProps {
+  tabs: FilterTab[];
+  active: string;
+  onChange: (value: string) => void;
+  label?: string;
 }
 
-export default function FilterBar({
+export default function FilterTabs({
+  tabs,
+  active,
+  onChange,
   label,
-  options,
-  selected,
-  onSelect,
-}: FilterBarProps) {
+}: FilterTabsProps) {
   return (
     <View style={styles.wrapper}>
-      <Text style={styles.label}>{label}</Text>
+      {label ? <Text style={styles.label}>{label}</Text> : null}
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.scrollContent}
       >
-        {options.map((opt) => {
-          const isActive = selected === opt.value;
+        {tabs.map((tab) => {
+          const isActive = active === tab.value;
           return (
             <TouchableOpacity
-              key={opt.value}
-              style={[styles.chip, isActive && styles.chipActive]}
-              onPress={() => onSelect(opt.value)}
+              key={tab.value}
+              style={[styles.tab, isActive && styles.tabActive]}
+              onPress={() => onChange(tab.value)}
               activeOpacity={0.7}
             >
-              <Text style={[styles.chipText, isActive && styles.chipTextActive]}>
-                {opt.label}
+              {tab.icon ? (
+                <Feather
+                  name={tab.icon}
+                  size={14}
+                  color={
+                    isActive
+                      ? theme.colors.textOnPrimary
+                      : theme.colors.textSecondary
+                  }
+                  style={styles.tabIcon}
+                />
+              ) : null}
+              <Text
+                style={[
+                  styles.tabText,
+                  isActive && styles.tabTextActive,
+                ]}
+              >
+                {tab.label}
               </Text>
             </TouchableOpacity>
           );
@@ -71,7 +92,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: theme.spacing.md,
     gap: theme.spacing.sm,
   },
-  chip: {
+  tab: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
     paddingHorizontal: 14,
     paddingVertical: 7,
     borderRadius: theme.borderRadius.full,
@@ -79,16 +103,19 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: theme.colors.border,
   },
-  chipActive: {
+  tabActive: {
     backgroundColor: theme.colors.primary,
     borderColor: theme.colors.primary,
   },
-  chipText: {
+  tabIcon: {
+    marginTop: 1,
+  },
+  tabText: {
     fontSize: theme.fontSize.sm,
     fontWeight: theme.fontWeight.medium as "500",
     color: theme.colors.textSecondary,
   },
-  chipTextActive: {
+  tabTextActive: {
     color: theme.colors.textOnPrimary,
   },
 });

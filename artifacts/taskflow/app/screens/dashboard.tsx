@@ -9,7 +9,9 @@ import {
   View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import FilterBar from "../components/FilterBar";
+import Button from "../components/Button";
+import EmptyState from "../components/EmptyState";
+import FilterTabs from "../components/FilterTabs";
 import TaskCard from "../components/TaskCard";
 import { navigate } from "../navigation/navigationRef";
 import taskService from "../services/taskService";
@@ -50,16 +52,16 @@ function toTask(raw: Record<string, string>): Task {
   };
 }
 
-const STATUS_OPTS = [
+const STATUS_TABS = [
   { value: "all", label: "Todas" },
-  { value: "pending", label: "Pendentes" },
-  { value: "in_progress", label: "Em Andamento" },
-  { value: "done", label: "Concluídas" },
+  { value: "pending", label: "Pendentes", icon: "clock" as const },
+  { value: "in_progress", label: "Em Andamento", icon: "loader" as const },
+  { value: "done", label: "Concluídas", icon: "check-circle" as const },
 ];
 
-const PRIORITY_OPTS = [
+const PRIORITY_TABS = [
   { value: "all", label: "Qualquer" },
-  { value: "high", label: "Alta" },
+  { value: "high", label: "Alta", icon: "flag" as const },
   { value: "medium", label: "Média" },
   { value: "low", label: "Baixa" },
 ];
@@ -117,17 +119,23 @@ export default function DashboardScreen() {
       </View>
 
       <View style={styles.filtersSection}>
-        <FilterBar
+        <FilterTabs
           label="Status"
-          options={STATUS_OPTS}
-          selected={statusFilter}
-          onSelect={(v) => { setStatusFilter(v); handleRefresh(); }}
+          tabs={STATUS_TABS}
+          active={statusFilter}
+          onChange={(v) => {
+            setStatusFilter(v);
+            handleRefresh();
+          }}
         />
-        <FilterBar
+        <FilterTabs
           label="Prioridade"
-          options={PRIORITY_OPTS}
-          selected={priorityFilter}
-          onSelect={(v) => { setPriorityFilter(v); handleRefresh(); }}
+          tabs={PRIORITY_TABS}
+          active={priorityFilter}
+          onChange={(v) => {
+            setPriorityFilter(v);
+            handleRefresh();
+          }}
         />
       </View>
 
@@ -142,19 +150,6 @@ export default function DashboardScreen() {
     </View>
   );
 
-  const ListEmpty = (
-    <View style={styles.emptyState}>
-      <Feather name="inbox" size={48} color={theme.colors.border} />
-      <Text style={styles.emptyTitle}>Nenhuma tarefa encontrada</Text>
-      <Text style={styles.emptyText}>
-        Tente ajustar os filtros ou crie uma nova tarefa
-      </Text>
-      <TouchableOpacity style={styles.emptyBtn} onPress={navigate.toCreateTask}>
-        <Text style={styles.emptyBtnText}>Criar primeira tarefa</Text>
-      </TouchableOpacity>
-    </View>
-  );
-
   return (
     <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
       <FlatList
@@ -164,7 +159,14 @@ export default function DashboardScreen() {
           <TaskCard task={item} onPress={handleTaskPress} />
         )}
         ListHeaderComponent={ListHeader}
-        ListEmptyComponent={ListEmpty}
+        ListEmptyComponent={
+          <EmptyState
+            title="Nenhuma tarefa encontrada"
+            message="Tente ajustar os filtros ou crie uma nova tarefa"
+            buttonTitle="Criar primeira tarefa"
+            onButtonPress={navigate.toCreateTask}
+          />
+        }
         contentContainerStyle={{ paddingBottom: bottomPad + 24 }}
         showsVerticalScrollIndicator={false}
         scrollEnabled={tasks.length > 0}
@@ -245,35 +247,5 @@ const styles = StyleSheet.create({
     fontSize: theme.fontSize.md,
     fontWeight: theme.fontWeight.semibold as "600",
     color: theme.colors.text,
-  },
-  emptyState: {
-    alignItems: "center",
-    paddingVertical: theme.spacing.xxl,
-    paddingHorizontal: theme.spacing.xl,
-    gap: theme.spacing.sm,
-  },
-  emptyTitle: {
-    fontSize: theme.fontSize.lg,
-    fontWeight: theme.fontWeight.semibold as "600",
-    color: theme.colors.textSecondary,
-    marginTop: theme.spacing.sm,
-  },
-  emptyText: {
-    fontSize: theme.fontSize.md,
-    color: theme.colors.textMuted,
-    textAlign: "center",
-    lineHeight: 22,
-  },
-  emptyBtn: {
-    marginTop: theme.spacing.sm,
-    backgroundColor: theme.colors.primary,
-    borderRadius: theme.borderRadius.lg,
-    paddingVertical: 12,
-    paddingHorizontal: theme.spacing.xl,
-  },
-  emptyBtnText: {
-    color: "#FFFFFF",
-    fontWeight: theme.fontWeight.semibold as "600",
-    fontSize: theme.fontSize.md,
   },
 });

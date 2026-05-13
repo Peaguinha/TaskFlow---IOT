@@ -7,11 +7,12 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import Button from "../components/Button";
+import Input from "../components/Input";
 import { navigate } from "../navigation/navigationRef";
 import taskService from "../services/taskService";
 import theme from "../styles/theme";
@@ -75,33 +76,25 @@ export default function CreateTaskScreen() {
         ]}
         keyboardShouldPersistTaps="handled"
       >
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Título *</Text>
-          <TextInput
-            style={[styles.input, error && !title.trim() ? styles.inputError : null]}
-            placeholder="O que precisa ser feito?"
-            placeholderTextColor={theme.colors.textMuted}
-            value={title}
-            onChangeText={setTitle}
-            maxLength={100}
-          />
-        </View>
+        <Input
+          label="Título *"
+          value={title}
+          onChangeText={setTitle}
+          placeholder="O que precisa ser feito?"
+          maxLength={100}
+          error={error && !title.trim() ? error : undefined}
+        />
 
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Descrição</Text>
-          <TextInput
-            style={[styles.input, styles.textArea]}
-            placeholder="Adicione mais detalhes sobre a tarefa..."
-            placeholderTextColor={theme.colors.textMuted}
-            value={description}
-            onChangeText={setDescription}
-            multiline
-            numberOfLines={4}
-            textAlignVertical="top"
-            maxLength={500}
-          />
-          <Text style={styles.charCount}>{description.length}/500</Text>
-        </View>
+        <Input
+          label="Descrição"
+          value={description}
+          onChangeText={setDescription}
+          placeholder="Adicione mais detalhes sobre a tarefa..."
+          multiline
+          numberOfLines={4}
+          maxLength={500}
+        />
+        <Text style={styles.charCount}>{description.length}/500</Text>
 
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Prioridade</Text>
@@ -167,49 +160,29 @@ export default function CreateTaskScreen() {
           </View>
         </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Data de Vencimento</Text>
-          <View style={styles.inputWrapper}>
-            <Feather
-              name="calendar"
-              size={18}
-              color={theme.colors.textMuted}
-              style={styles.inputIcon}
-            />
-            <TextInput
-              style={styles.inputInner}
-              placeholder="AAAA-MM-DD (ex: 2026-05-30)"
-              placeholderTextColor={theme.colors.textMuted}
-              value={dueDate}
-              onChangeText={setDueDate}
-              keyboardType="numbers-and-punctuation"
-            />
-          </View>
-        </View>
-
-        {error ? (
-          <View style={styles.errorBox}>
-            <Feather name="alert-circle" size={14} color={theme.colors.danger} />
-            <Text style={styles.errorText}>{error}</Text>
-          </View>
-        ) : null}
+        <Input
+          label="Data de Vencimento"
+          value={dueDate}
+          onChangeText={setDueDate}
+          placeholder="AAAA-MM-DD (ex: 2026-05-30)"
+          icon="calendar"
+          keyboardType="numbers-and-punctuation"
+        />
 
         <View style={styles.actions}>
-          <TouchableOpacity
-            style={styles.btnCancel}
+          <Button
+            title="Cancelar"
+            variant="outline"
             onPress={navigate.back}
-            activeOpacity={0.75}
-          >
-            <Text style={styles.btnCancelText}>Cancelar</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.btnCreate}
+            style={{ flex: 1 }}
+          />
+          <Button
+            title="Criar Tarefa"
+            variant="primary"
             onPress={handleCreate}
-            activeOpacity={0.85}
-          >
-            <Feather name="plus" size={18} color="#FFFFFF" />
-            <Text style={styles.btnCreateText}>Criar Tarefa</Text>
-          </TouchableOpacity>
+            icon={<Feather name="plus" size={18} color="#FFFFFF" />}
+            style={{ flex: 2 }}
+          />
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
@@ -231,27 +204,11 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
     letterSpacing: 0.5,
   },
-  input: {
-    backgroundColor: theme.colors.surface,
-    borderRadius: theme.borderRadius.md,
-    borderWidth: 1.5,
-    borderColor: theme.colors.border,
-    paddingHorizontal: theme.spacing.md,
-    paddingVertical: 14,
-    fontSize: theme.fontSize.md,
-    color: theme.colors.text,
-  },
-  inputError: {
-    borderColor: theme.colors.danger,
-  },
-  textArea: {
-    minHeight: 100,
-    paddingTop: 14,
-  },
   charCount: {
     fontSize: theme.fontSize.xs,
     color: theme.colors.textMuted,
     textAlign: "right",
+    marginTop: -theme.spacing.md,
   },
   priorityRow: {
     flexDirection: "row",
@@ -308,67 +265,9 @@ const styles = StyleSheet.create({
     color: theme.colors.primary,
     fontWeight: theme.fontWeight.semibold as "600",
   },
-  inputWrapper: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: theme.colors.surface,
-    borderRadius: theme.borderRadius.md,
-    borderWidth: 1.5,
-    borderColor: theme.colors.border,
-    paddingHorizontal: theme.spacing.md,
-  },
-  inputIcon: { marginRight: theme.spacing.sm },
-  inputInner: {
-    flex: 1,
-    paddingVertical: 14,
-    fontSize: theme.fontSize.md,
-    color: theme.colors.text,
-  },
-  errorBox: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: theme.spacing.xs,
-    backgroundColor: theme.colors.dangerLight,
-    padding: theme.spacing.sm,
-    borderRadius: theme.borderRadius.sm,
-  },
-  errorText: {
-    fontSize: theme.fontSize.sm,
-    color: theme.colors.danger,
-    flex: 1,
-  },
   actions: {
     flexDirection: "row",
     gap: theme.spacing.md,
     marginTop: theme.spacing.sm,
-  },
-  btnCancel: {
-    flex: 1,
-    paddingVertical: 14,
-    borderRadius: theme.borderRadius.lg,
-    alignItems: "center",
-    borderWidth: 1.5,
-    borderColor: theme.colors.border,
-    backgroundColor: theme.colors.surface,
-  },
-  btnCancelText: {
-    fontSize: theme.fontSize.md,
-    color: theme.colors.textSecondary,
-    fontWeight: theme.fontWeight.semibold as "600",
-  },
-  btnCreate: {
-    flex: 2,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: 14,
-    borderRadius: theme.borderRadius.lg,
-    backgroundColor: theme.colors.primary,
-    gap: theme.spacing.sm,
-  },
-  btnCreateText: {
-    fontSize: theme.fontSize.md,
-    color: "#FFFFFF",
-    fontWeight: theme.fontWeight.bold as "700",
   },
 });
