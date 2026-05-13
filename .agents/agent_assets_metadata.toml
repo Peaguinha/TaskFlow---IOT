@@ -1,0 +1,8 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "N_vJXWVXP5_HoAs1RyX3d"
+uri = "file://artifacts/taskflow/assets/images/icon.png"
+type = "image"
+title = "taskflow icon"
