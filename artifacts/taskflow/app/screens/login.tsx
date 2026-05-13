@@ -11,7 +11,7 @@ import {
   View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { navigate } from "../navigation/AppNavigator";
+import { navigate } from "../navigation/navigationRef";
 import theme from "../styles/theme";
 
 export default function LoginScreen() {

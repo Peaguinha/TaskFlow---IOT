@@ -11,7 +11,7 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import FilterBar from "../components/FilterBar";
 import TaskCard from "../components/TaskCard";
-import { navigate } from "../navigation/AppNavigator";
+import { navigate } from "../navigation/navigationRef";
 import taskService from "../services/taskService";
 import theme from "../styles/theme";
 

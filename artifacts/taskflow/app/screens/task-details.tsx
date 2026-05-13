@@ -1,7 +1,8 @@
 import { Feather } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
-import { useLocalSearchParams } from "expo-router";
+import { useRoute, RouteProp } from "@react-navigation/native";
 import React, { useState } from "react";
+import type { RootStackParamList } from "../navigation/navigationRef";
 import {
   Platform,
   ScrollView,
@@ -13,7 +14,7 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import StatusBadge from "../components/StatusBadge";
-import { navigate } from "../navigation/AppNavigator";
+import { navigate } from "../navigation/navigationRef";
 import taskService from "../services/taskService";
 import theme from "../styles/theme";
 
@@ -71,7 +72,8 @@ function isPriority(value: string): value is Priority {
 }
 
 export default function TaskDetailsScreen() {
-  const { id } = useLocalSearchParams<{ id: string }>();
+  const route = useRoute<RouteProp<RootStackParamList, "TaskDetails">>();
+  const { id } = route.params;
   const insets = useSafeAreaInsets();
   const bottomPad = Platform.OS === "web" ? 34 : insets.bottom;
 
