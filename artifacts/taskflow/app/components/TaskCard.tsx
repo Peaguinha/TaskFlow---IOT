@@ -1,18 +1,9 @@
 import { Feather } from "@expo/vector-icons";
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import type { Task } from "../context/TaskContext";
 import theme from "../styles/theme";
 import StatusBadge from "./StatusBadge";
-
-interface Task {
-  id: string;
-  title: string;
-  description: string;
-  status: "pending" | "in_progress" | "done";
-  priority: "low" | "medium" | "high";
-  dueDate?: string;
-  category?: string;
-}
 
 interface TaskCardProps {
   task: Task;

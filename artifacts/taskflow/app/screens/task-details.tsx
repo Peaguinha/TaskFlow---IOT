@@ -7,43 +7,26 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "../components/Button";
 import Header from "../components/Header";
 import StatusBadge from "../components/StatusBadge";
+import { useTasks } from "../context/TaskContext";
 import type { RootStackParamList } from "../navigation/navigationRef";
 import { navigate } from "../navigation/navigationRef";
-import taskService from "../services/taskService";
 import theme from "../styles/theme";
 
 type Status = "pending" | "in_progress" | "done";
 type Priority = "low" | "medium" | "high";
 
-interface StatusTransition {
-  next: Status;
-  label: string;
-  color: string;
-}
-
-const STATUS_TRANSITIONS: Record<Status, StatusTransition> = {
-  pending: {
-    next: "in_progress",
-    label: "Iniciar Tarefa",
-    color: theme.colors.primary,
-  },
-  in_progress: {
-    next: "done",
-    label: "Marcar como Concluída",
-    color: theme.colors.success,
-  },
-  done: {
-    next: "pending",
-    label: "Reabrir Tarefa",
-    color: theme.colors.warning,
-  },
-};
+const STATUS_OPTIONS: { value: Status; label: string; icon: React.ComponentProps<typeof Feather>["name"]; color: string }[] = [
+  { value: "pending", label: "Pendente", icon: "clock", color: theme.colors.statusPending },
+  { value: "in_progress", label: "Em Andamento", icon: "loader", color: theme.colors.statusInProgress },
+  { value: "done", label: "Concluída", icon: "check-circle", color: theme.colors.statusDone },
+];
 
 const PRIORITY_CONFIG: Record<Priority, { label: string; color: string }> = {
   low: { label: "Baixa", color: theme.colors.priorityLow },
@@ -59,20 +42,14 @@ function isPriority(value: string): value is Priority {
   return value === "low" || value === "medium" || value === "high";
 }
 
-interface InfoRow {
-  icon: React.ComponentProps<typeof Feather>["name"];
-  label: string;
-  value: string;
-  valueColor: string;
-}
-
 export default function TaskDetailsScreen() {
   const route = useRoute<RouteProp<RootStackParamList, "TaskDetails">>();
   const { id } = route.params;
+  const { getById, updateStatus, deleteTask } = useTasks();
   const insets = useSafeAreaInsets();
   const bottomPad = Platform.OS === "web" ? 32 : insets.bottom;
 
-  const [task, setTask] = useState(() => taskService.getById(id ?? ""));
+  const [task, setTask] = useState(() => getById(id ?? ""));
 
   if (!task) {
     return (
@@ -88,11 +65,10 @@ export default function TaskDetailsScreen() {
 
   const taskStatus: Status = isStatus(task.status) ? task.status : "pending";
   const taskPriority: Priority = isPriority(task.priority) ? task.priority : "medium";
-  const transition = STATUS_TRANSITIONS[taskStatus];
   const pc = PRIORITY_CONFIG[taskPriority];
 
-  const handleStatusChange = () => {
-    const updated = taskService.updateStatus(task.id, transition.next);
+  const handleStatusChange = (newStatus: Status) => {
+    const updated = updateStatus(task.id, newStatus);
     if (updated) {
       setTask({ ...updated });
       if (Platform.OS !== "web") {
@@ -101,55 +77,37 @@ export default function TaskDetailsScreen() {
     }
   };
 
-  const infoRows: InfoRow[] = [
-    {
-      icon: "flag",
-      label: "Prioridade",
-      value: pc.label,
-      valueColor: pc.color,
-    },
-    {
-      icon: "tag",
-      label: "Categoria",
-      value: task.category || "—",
-      valueColor: theme.colors.text,
-    },
-    {
-      icon: "calendar",
-      label: "Vencimento",
-      value: task.dueDate || "Sem data",
-      valueColor: theme.colors.text,
-    },
-    {
-      icon: "clock",
-      label: "Criado em",
-      value: task.createdAt || "—",
-      valueColor: theme.colors.textSecondary,
-    },
+  const handleDelete = () => {
+    deleteTask(task.id);
+    navigate.toDashboard();
+  };
+
+  const infoRows = [
+    { icon: "flag" as const, label: "Prioridade", value: pc.label, valueColor: pc.color },
+    { icon: "tag" as const, label: "Categoria", value: task.category || "—", valueColor: theme.colors.text },
+    { icon: "calendar" as const, label: "Vencimento", value: task.dueDate || "Sem data", valueColor: theme.colors.text },
+    { icon: "clock" as const, label: "Criado em", value: task.createdAt || "—", valueColor: theme.colors.textSecondary },
   ];
 
   return (
     <View style={styles.container}>
       <ScrollView
         contentContainerStyle={[
-          { paddingBottom: bottomPad + 120 },
+          { paddingBottom: bottomPad + 180 },
           Platform.OS === "web" ? { maxWidth: 720, alignSelf: "center", width: "100%" } : {},
         ]}
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.heroCard}>
+          <Header
+            title={task.title}
+            subtitle={task.description || "Sem descrição"}
+            onBack={navigate.back}
+          />
           <View style={styles.badgesRow}>
             <StatusBadge value={taskStatus} type="status" />
             <StatusBadge value={taskPriority} type="priority" />
           </View>
-          <Text style={styles.title}>{task.title}</Text>
-        </View>
-
-        <View style={styles.card}>
-          <Text style={styles.cardTitle}>Descrição</Text>
-          <Text style={styles.description}>
-            {task.description || "Sem descrição adicionada."}
-          </Text>
         </View>
 
         <View style={styles.card}>
@@ -178,13 +136,47 @@ export default function TaskDetailsScreen() {
             ))}
           </View>
         </View>
+
+        <View style={styles.card}>
+          <Text style={styles.cardTitle}>Alterar Status</Text>
+          <View style={styles.statusButtons}>
+            {STATUS_OPTIONS.map((s) => {
+              const isActive = taskStatus === s.value;
+              return (
+                <TouchableOpacity
+                  key={s.value}
+                  style={[
+                    styles.statusBtn,
+                    isActive && { backgroundColor: s.color, borderColor: s.color },
+                  ]}
+                  onPress={() => handleStatusChange(s.value)}
+                  activeOpacity={0.75}
+                >
+                  <Feather
+                    name={s.icon}
+                    size={16}
+                    color={isActive ? "#FFFFFF" : s.color}
+                  />
+                  <Text
+                    style={[
+                      styles.statusBtnText,
+                      isActive && { color: "#FFFFFF" },
+                    ]}
+                  >
+                    {s.label}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+        </View>
       </ScrollView>
 
       <View style={[styles.bottomBar, { paddingBottom: bottomPad + 12 }]}>
         <Button
-          title={transition.label}
-          onPress={handleStatusChange}
-          style={{ backgroundColor: transition.color }}
+          title="Excluir Tarefa"
+          variant="danger"
+          onPress={handleDelete}
         />
       </View>
     </View>
@@ -206,12 +198,7 @@ const styles = StyleSheet.create({
   badgesRow: {
     flexDirection: "row",
     gap: 8,
-  },
-  title: {
-    fontSize: 22,
-    fontWeight: "700",
-    color: "#FFFFFF",
-    lineHeight: 30,
+    marginTop: 8,
   },
   card: {
     backgroundColor: theme.colors.surface,
@@ -228,11 +215,6 @@ const styles = StyleSheet.create({
     color: theme.colors.textSecondary,
     textTransform: "uppercase",
     letterSpacing: 0.5,
-  },
-  description: {
-    fontSize: 15,
-    color: theme.colors.text,
-    lineHeight: 24,
   },
   infoList: {
     gap: 0,
@@ -259,6 +241,27 @@ const styles = StyleSheet.create({
   infoValue: {
     fontSize: 15,
     fontWeight: "600",
+  },
+  statusButtons: {
+    flexDirection: "row",
+    gap: 8,
+  },
+  statusBtn: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 6,
+    paddingVertical: 12,
+    borderRadius: 12,
+    borderWidth: 1.5,
+    borderColor: theme.colors.border,
+    backgroundColor: theme.colors.surface,
+  },
+  statusBtnText: {
+    fontSize: 13,
+    fontWeight: "500",
+    color: theme.colors.textSecondary,
   },
   bottomBar: {
     position: "absolute",

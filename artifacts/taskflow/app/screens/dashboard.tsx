@@ -13,44 +13,9 @@ import Button from "../components/Button";
 import EmptyState from "../components/EmptyState";
 import FilterTabs from "../components/FilterTabs";
 import TaskCard from "../components/TaskCard";
+import { useTasks } from "../context/TaskContext";
 import { navigate } from "../navigation/navigationRef";
-import taskService from "../services/taskService";
 import theme from "../styles/theme";
-
-type TaskStatus = "pending" | "in_progress" | "done";
-type TaskPriority = "low" | "medium" | "high";
-
-interface Task {
-  id: string;
-  title: string;
-  description: string;
-  status: TaskStatus;
-  priority: TaskPriority;
-  dueDate?: string;
-  createdAt?: string;
-  category?: string;
-}
-
-function toTask(raw: Record<string, string>): Task {
-  const status: TaskStatus =
-    raw.status === "in_progress" || raw.status === "done"
-      ? raw.status
-      : "pending";
-  const priority: TaskPriority =
-    raw.priority === "high" || raw.priority === "low"
-      ? raw.priority
-      : "medium";
-  return {
-    id: raw.id ?? "",
-    title: raw.title ?? "",
-    description: raw.description ?? "",
-    status,
-    priority,
-    dueDate: raw.dueDate,
-    createdAt: raw.createdAt,
-    category: raw.category,
-  };
-}
 
 const STATUS_TABS = [
   { value: "all", label: "Todas" },
@@ -71,16 +36,15 @@ export default function DashboardScreen() {
   const topPad = Platform.OS === "web" ? 48 : insets.top;
   const bottomPad = Platform.OS === "web" ? 32 : insets.bottom;
 
+  const { tasks, filterTasks, getStats } = useTasks();
   const [statusFilter, setStatusFilter] = useState("all");
   const [priorityFilter, setPriorityFilter] = useState("all");
   const [refreshKey, setRefreshKey] = useState(0);
 
-  const stats = taskService.getStats();
-  const tasks: Task[] = taskService
-    .filter({ status: statusFilter, priority: priorityFilter })
-    .map(toTask);
+  const stats = getStats();
+  const filtered = filterTasks({ status: statusFilter, priority: priorityFilter });
 
-  const handleTaskPress = useCallback((task: Task) => {
+  const handleTaskPress = useCallback((task: typeof filtered[0]) => {
     navigate.toTaskDetails(task.id);
   }, []);
 
@@ -141,7 +105,7 @@ export default function DashboardScreen() {
 
       <View style={styles.listHeader}>
         <Text style={styles.listTitle}>
-          {tasks.length} {tasks.length === 1 ? "tarefa" : "tarefas"}
+          {filtered.length} {filtered.length === 1 ? "tarefa" : "tarefas"}
         </Text>
         <TouchableOpacity onPress={handleRefresh}>
           <Feather name="refresh-cw" size={16} color={theme.colors.textMuted} />
@@ -159,7 +123,7 @@ export default function DashboardScreen() {
       ]}
     >
       <FlatList
-        data={tasks}
+        data={filtered}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <TaskCard task={item} onPress={handleTaskPress} />
@@ -175,7 +139,8 @@ export default function DashboardScreen() {
         }
         contentContainerStyle={{ paddingBottom: bottomPad + 24 }}
         showsVerticalScrollIndicator={false}
-        scrollEnabled={tasks.length > 0}
+        scrollEnabled={filtered.length > 0}
+        extraData={refreshKey}
       />
     </View>
   );

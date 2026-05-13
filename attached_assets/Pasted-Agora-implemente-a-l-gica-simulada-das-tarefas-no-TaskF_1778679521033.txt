@@ -1,0 +1,65 @@
+Agora implemente a lógica simulada das tarefas no TaskFlow usando useState e dados mockados.
+
+Objetivo:
+A aplicação deve demonstrar de forma funcional os 5 casos de uso principais da Fase 1:
+
+1. Criar tarefa.
+2. Listar tarefas.
+3. Visualizar detalhes da tarefa.
+4. Atualizar status da tarefa.
+5. Filtrar tarefas por status ou prioridade.
+
+Requisitos:
+
+1. No DashboardScreen:
+   - Carregar a lista inicial a partir de app/data/mockTasks.js.
+   - Exibir os cards de resumo:
+     - Total de tarefas.
+     - Pendentes.
+     - Em andamento.
+     - Concluídas.
+   - Atualizar esses números conforme as tarefas mudam.
+   - Permitir filtrar por:
+     - Todas
+     - Pendentes
+     - Em andamento
+     - Concluídas
+     - Alta prioridade
+
+2. No CreateTaskScreen:
+   - Permitir preencher:
+     - título
+     - descrição
+     - prioridade
+     - status
+     - prazo
+   - Validar se título e descrição foram preenchidos.
+   - Ao salvar, criar uma nova tarefa simulada.
+   - Após salvar, voltar para o Dashboard.
+   - A nova tarefa deve aparecer na listagem.
+
+3. No TaskDetailsScreen:
+   - Exibir todos os dados da tarefa selecionada.
+   - Permitir alterar o status para:
+     - Pendente
+     - Em andamento
+     - Concluída
+   - Ao alterar o status, atualizar a tarefa e refletir no Dashboard.
+
+4. Estado global simples:
+   - Como ainda não haverá backend, use um estado central no AppNavigator ou Context API simples para manter as tarefas durante a sessão.
+   - Crie um TaskContext, se for a melhor solução.
+   - O objetivo é que as tarefas criadas e atualizadas permaneçam enquanto o app estiver aberto.
+
+5. Local Storage:
+   - Nesta fase, pode deixar preparado, mas não é obrigatório persistir tudo.
+   - Se for simples, usar AsyncStorage para salvar as tarefas localmente.
+   - Se isso complicar, deixe apenas uma estrutura em app/services/storageService.js preparada para a Fase 2.
+
+Regras:
+- Não implementar backend.
+- Não implementar MongoDB.
+- Não implementar autenticação real.
+- Evitar soluções complexas demais.
+- O código precisa ser fácil de explicar na apresentação.
+- Garantir que a aplicação continue rodando sem erros.

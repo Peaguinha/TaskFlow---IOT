@@ -14,14 +14,20 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "../components/Button";
 import Header from "../components/Header";
 import Input from "../components/Input";
+import { useTasks, type TaskInput } from "../context/TaskContext";
 import { navigate } from "../navigation/navigationRef";
-import taskService from "../services/taskService";
 import theme from "../styles/theme";
 
 const PRIORITIES = [
   { value: "low", label: "Baixa", color: theme.colors.priorityLow },
   { value: "medium", label: "Média", color: theme.colors.priorityMedium },
   { value: "high", label: "Alta", color: theme.colors.priorityHigh },
+];
+
+const STATUSES = [
+  { value: "pending", label: "Pendente", color: theme.colors.statusPending },
+  { value: "in_progress", label: "Em Andamento", color: theme.colors.statusInProgress },
+  { value: "done", label: "Concluída", color: theme.colors.statusDone },
 ];
 
 const CATEGORIES = [
@@ -35,9 +41,11 @@ const CATEGORIES = [
 
 export default function CreateTaskScreen() {
   const insets = useSafeAreaInsets();
+  const { createTask } = useTasks();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [priority, setPriority] = useState("medium");
+  const [status, setStatus] = useState("pending");
   const [dueDate, setDueDate] = useState("");
   const [category, setCategory] = useState("Pessoal");
   const [error, setError] = useState("");
@@ -48,10 +56,15 @@ export default function CreateTaskScreen() {
       setError("O título é obrigatório.");
       return;
     }
-    taskService.create({
+    if (!description.trim()) {
+      setError("A descrição é obrigatória.");
+      return;
+    }
+    createTask({
       title: title.trim(),
       description: description.trim(),
-      priority,
+      priority: priority as TaskInput["priority"],
+      status: status as TaskInput["status"],
       dueDate: dueDate.trim() || undefined,
       category,
     });
@@ -90,15 +103,45 @@ export default function CreateTaskScreen() {
           />
 
           <Input
-            label="Descrição"
+            label="Descrição *"
             value={description}
             onChangeText={setDescription}
             placeholder="Adicione mais detalhes sobre a tarefa..."
             multiline
             numberOfLines={4}
             maxLength={500}
+            error={error && title.trim() && !description.trim() ? error : undefined}
           />
           <Text style={styles.charCount}>{description.length}/500</Text>
+
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Status</Text>
+            <View style={styles.priorityRow}>
+              {STATUSES.map((s) => (
+                <TouchableOpacity
+                  key={s.value}
+                  style={[
+                    styles.priorityBtn,
+                    status === s.value && {
+                      backgroundColor: s.color,
+                      borderColor: s.color,
+                    },
+                  ]}
+                  onPress={() => setStatus(s.value)}
+                  activeOpacity={0.75}
+                >
+                  <Text
+                    style={[
+                      styles.priorityLabel,
+                      status === s.value && styles.priorityLabelActive,
+                    ]}
+                  >
+                    {s.label}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          </View>
 
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Prioridade</Text>
