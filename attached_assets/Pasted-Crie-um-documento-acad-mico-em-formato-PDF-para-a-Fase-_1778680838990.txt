@@ -1,0 +1,394 @@
+Crie um documento acadêmico em formato PDF para a Fase 1 do projeto TaskFlow.
+
+O TaskFlow é um gerenciador de tarefas pessoais desenvolvido em React Native com Expo, com foco em funcionamento responsivo para Web e Mobile.
+
+Este documento deve atender aos requisitos da Fase 1 da disciplina Desenvolver Aplicativos para dispositivos móveis e IOT.
+
+Contexto da entrega:
+A Fase 1 exige um documento PDF com a descrição do problema e da aplicação em desenvolvimento, além do frontend do aplicativo desenvolvido em React Native. Nesta fase, o projeto ainda não possui backend real, banco de dados ou autenticação real. A aplicação utiliza dados mockados e simula login e cadastro, deixando a estrutura preparada para a Fase 2.
+
+Dados da capa:
+- Nome do projeto: TaskFlow — Gerenciador de Tarefas Pessoais
+- Nome da disciplina: Desenvolver Aplicativos para dispositivos móveis e IOT
+- Fase do projeto: Fase 1
+- Integrante: Pedro Henrique de Almeida Peixoto
+- Professor: Matheus Batista Silva
+- Data da entrega: 23/05
+
+Importante:
+Login e cadastro são requisitos obrigatórios da aplicação, mas não devem ser tratados como casos de uso principais. Os casos de uso principais devem estar relacionados ao gerenciamento de tarefas.
+
+Crie o conteúdo do documento com linguagem acadêmica, clara, organizada e profissional.
+
+Estrutura obrigatória do documento:
+
+1. Capa
+
+Inclua:
+- TaskFlow — Gerenciador de Tarefas Pessoais
+- Disciplina: Desenvolver Aplicativos para dispositivos móveis e IOT
+- Fase 1
+- Integrante: Pedro Henrique de Almeida Peixoto
+- Professor: Matheus Batista Silva
+- Data da entrega: 23/05
+
+A capa deve ter aparência limpa, centralizada e acadêmica.
+
+2. Introdução
+
+Explique brevemente o contexto do projeto.
+Fale sobre a importância de aplicativos móveis na organização da rotina pessoal.
+Explique que o TaskFlow foi pensado para auxiliar usuários no controle de tarefas, prazos, prioridades e andamento das atividades.
+
+3. Problema identificado
+
+Explique o problema que o aplicativo busca resolver.
+Aborde dificuldades como:
+- Falta de organização pessoal.
+- Esquecimento de tarefas importantes.
+- Dificuldade para acompanhar prazos.
+- Falta de clareza sobre prioridades.
+- Ausência de uma visão simples do que está pendente, em andamento ou concluído.
+
+4. Objetivo geral
+
+Defina o objetivo principal do TaskFlow.
+
+Exemplo:
+Desenvolver uma aplicação frontend responsiva, utilizando React Native com Expo, capaz de simular o gerenciamento de tarefas pessoais por meio de criação, listagem, visualização, atualização de status e filtragem de tarefas.
+
+5. Objetivos específicos
+
+Liste objetivos específicos, como:
+- Criar uma interface inicial de apresentação do sistema.
+- Implementar telas de login e cadastro simulados.
+- Permitir a criação de tarefas com título, descrição, prioridade, status e prazo.
+- Exibir uma lista de tarefas cadastradas.
+- Permitir a visualização detalhada de uma tarefa.
+- Permitir a atualização do status da tarefa.
+- Permitir a filtragem de tarefas por status ou prioridade.
+- Organizar o código em pastas e componentes reutilizáveis.
+- Preparar a estrutura do frontend para integração futura com backend na Fase 2.
+
+6. Público-alvo
+
+Explique quem são os usuários da aplicação.
+
+Inclua exemplos:
+- Estudantes que precisam organizar atividades acadêmicas.
+- Profissionais que desejam controlar tarefas diárias.
+- Pessoas que precisam acompanhar compromissos pessoais.
+- Usuários que buscam uma ferramenta simples para organizar rotinas.
+
+7. Descrição da solução
+
+Explique o que é o TaskFlow.
+Descreva que ele é um aplicativo de gerenciamento de tarefas pessoais.
+Explique que a solução permite centralizar tarefas, acompanhar status, definir prioridades e visualizar o andamento das atividades.
+
+Deixe claro que, na Fase 1, o sistema é um frontend funcional com dados mockados, sem backend real.
+
+8. Tecnologias utilizadas
+
+Crie uma seção explicando as tecnologias:
+
+- React Native:
+Utilizado para desenvolvimento da interface mobile.
+
+- Expo:
+Utilizado para facilitar a criação, execução e testes da aplicação.
+
+- JavaScript:
+Linguagem utilizada no desenvolvimento da aplicação.
+
+- React Navigation:
+Utilizado para navegação entre telas.
+
+- Hooks:
+Utilizados para controle de estado e comportamento da interface.
+
+- Dados mockados:
+Utilizados para simular tarefas durante a Fase 1.
+
+- Replit:
+Ambiente utilizado para desenvolvimento do projeto.
+
+9. Requisitos funcionais da Fase 1
+
+Liste os requisitos funcionais:
+
+RF01 — O sistema deve possuir tela de boas-vindas.
+RF02 — O sistema deve possuir tela de login simulado.
+RF03 — O sistema deve possuir tela de cadastro simulado.
+RF04 — O sistema deve permitir criar tarefas.
+RF05 — O sistema deve permitir listar tarefas.
+RF06 — O sistema deve permitir visualizar detalhes de uma tarefa.
+RF07 — O sistema deve permitir atualizar o status de uma tarefa.
+RF08 — O sistema deve permitir filtrar tarefas por status ou prioridade.
+RF09 — O sistema deve exibir resumo das tarefas no dashboard.
+RF10 — O sistema deve permitir sair da área principal e retornar à tela inicial.
+
+10. Requisitos não funcionais
+
+Liste os requisitos não funcionais:
+
+RNF01 — A aplicação deve ser desenvolvida em React Native com Expo.
+RNF02 — A aplicação deve ser responsiva para Web e Mobile.
+RNF03 — A aplicação deve possuir código organizado em pastas.
+RNF04 — A aplicação deve utilizar componentes reutilizáveis.
+RNF05 — A aplicação deve funcionar sem backend na Fase 1.
+RNF06 — A aplicação deve utilizar dados mockados.
+RNF07 — A interface deve ser clara, simples e de fácil utilização.
+RNF08 — O projeto deve estar preparado para integração futura com backend Node.js.
+
+11. Usuários do sistema
+
+Descreva os usuários envolvidos.
+
+Usuário comum:
+Pessoa que utiliza o TaskFlow para organizar suas tarefas pessoais.
+
+Ações do usuário comum:
+- Acessar a aplicação.
+- Realizar cadastro simulado.
+- Realizar login simulado.
+- Criar tarefas.
+- Listar tarefas.
+- Visualizar detalhes.
+- Atualizar status.
+- Filtrar tarefas.
+
+Administrador:
+Explique que, na Fase 1, não há perfil administrativo implementado, pois o foco está no uso individual do sistema. Caso necessário, esse perfil poderá ser considerado em versões futuras.
+
+12. Casos de uso principais
+
+Crie uma seção detalhada para os 5 casos de uso principais.
+
+Importante:
+Não incluir login e cadastro como casos de uso principais. Eles devem aparecer apenas como requisitos obrigatórios de acesso simulado.
+
+Caso de Uso 1 — Criar tarefa
+
+Descrição:
+Permite que o usuário cadastre uma nova tarefa no sistema.
+
+Ator principal:
+Usuário comum.
+
+Pré-condição:
+O usuário deve estar na área principal da aplicação.
+
+Fluxo principal:
+1. O usuário acessa o dashboard.
+2. O usuário seleciona a opção de criar nova tarefa.
+3. O sistema exibe o formulário de criação.
+4. O usuário informa título, descrição, prioridade, status e prazo.
+5. O usuário confirma o cadastro.
+6. O sistema adiciona a tarefa à lista de tarefas.
+
+Pós-condição:
+A nova tarefa passa a ser exibida no dashboard.
+
+Caso de Uso 2 — Listar tarefas
+
+Descrição:
+Permite que o usuário visualize as tarefas cadastradas.
+
+Ator principal:
+Usuário comum.
+
+Pré-condição:
+Existirem tarefas mockadas ou cadastradas durante a sessão.
+
+Fluxo principal:
+1. O usuário acessa o dashboard.
+2. O sistema carrega a lista de tarefas.
+3. O sistema exibe as tarefas em cards.
+4. Cada card apresenta título, descrição resumida, prioridade, status e prazo.
+
+Pós-condição:
+O usuário visualiza suas tarefas organizadas.
+
+Caso de Uso 3 — Visualizar detalhes da tarefa
+
+Descrição:
+Permite que o usuário acesse as informações completas de uma tarefa.
+
+Ator principal:
+Usuário comum.
+
+Pré-condição:
+A tarefa deve estar disponível na lista.
+
+Fluxo principal:
+1. O usuário acessa o dashboard.
+2. O usuário seleciona uma tarefa.
+3. O sistema abre a tela de detalhes.
+4. O sistema exibe título, descrição, prioridade, status e prazo.
+
+Pós-condição:
+O usuário compreende melhor as informações da tarefa selecionada.
+
+Caso de Uso 4 — Atualizar status da tarefa
+
+Descrição:
+Permite que o usuário altere o andamento de uma tarefa.
+
+Ator principal:
+Usuário comum.
+
+Pré-condição:
+A tarefa deve estar cadastrada no sistema.
+
+Fluxo principal:
+1. O usuário acessa os detalhes da tarefa.
+2. O sistema exibe as opções de status.
+3. O usuário escolhe entre Pendente, Em andamento ou Concluída.
+4. O sistema atualiza o status da tarefa.
+5. O dashboard reflete a alteração nos cards de resumo.
+
+Pós-condição:
+A tarefa passa a ter o novo status selecionado.
+
+Caso de Uso 5 — Filtrar tarefas por status ou prioridade
+
+Descrição:
+Permite que o usuário filtre a visualização das tarefas.
+
+Ator principal:
+Usuário comum.
+
+Pré-condição:
+Existirem tarefas cadastradas ou mockadas.
+
+Fluxo principal:
+1. O usuário acessa o dashboard.
+2. O sistema exibe opções de filtro.
+3. O usuário seleciona um filtro, como Todas, Pendentes, Em andamento, Concluídas ou Alta prioridade.
+4. O sistema atualiza a lista exibida conforme o filtro selecionado.
+
+Pós-condição:
+O usuário visualiza apenas as tarefas correspondentes ao filtro escolhido.
+
+13. Telas da aplicação
+
+Descreva cada tela:
+
+Tela de boas-vindas:
+Apresenta o nome TaskFlow, uma breve descrição da proposta e botões para login e cadastro.
+
+Tela de login:
+Permite acesso simulado ao sistema por meio de e-mail e senha.
+
+Tela de cadastro:
+Permite cadastro simulado com nome, e-mail e senha.
+
+Dashboard:
+Tela principal da aplicação, com saudação, resumo das tarefas, filtros e listagem de tarefas.
+
+Tela de criação de tarefa:
+Formulário para cadastro de uma nova tarefa.
+
+Tela de detalhes da tarefa:
+Exibe informações completas da tarefa e permite atualização de status.
+
+14. Organização do código
+
+Explique a estrutura do projeto:
+
+app/screens:
+Contém as telas principais da aplicação.
+
+app/components:
+Contém componentes reutilizáveis, como botões, inputs, cards e badges.
+
+app/navigation:
+Contém a configuração de navegação entre telas.
+
+app/data:
+Contém os dados mockados utilizados na Fase 1.
+
+app/styles:
+Contém arquivos de cores e estilos globais.
+
+app/services:
+Pasta preparada para futuras integrações com backend, APIs e armazenamento local.
+
+15. Componentes reutilizáveis
+
+Explique os componentes:
+
+Button:
+Componente reutilizável para botões.
+
+Input:
+Componente reutilizável para campos de formulário.
+
+Header:
+Componente de cabeçalho para telas internas.
+
+TaskCard:
+Componente responsável por exibir uma tarefa na lista.
+
+StatusBadge:
+Componente visual para exibir status e prioridade.
+
+FilterTabs:
+Componente responsável pelos filtros de tarefas.
+
+EmptyState:
+Componente exibido quando não há tarefas disponíveis.
+
+16. Dados mockados
+
+Explique que os dados mockados foram utilizados para simular tarefas sem necessidade de banco de dados.
+Explique que isso permite validar o funcionamento do frontend antes da integração com backend.
+
+17. Limitações da Fase 1
+
+Explique claramente que:
+- Não há backend real.
+- Não há banco de dados conectado.
+- Login e cadastro são simulados.
+- Os dados são mockados ou mantidos apenas durante a sessão.
+- A autenticação real será implementada na Fase 2.
+
+18. Planejamento para a Fase 2
+
+Explique que a Fase 2 terá:
+- Backend em Node.js.
+- Banco de dados MongoDB ou similar.
+- Autenticação real.
+- Uso de JWT.
+- Persistência real das tarefas.
+- Integração do frontend com API.
+- Possível uso de local storage para armazenar token e dados temporários.
+- Melhorias na segurança e organização da aplicação.
+
+19. Conclusão
+
+Finalize explicando que o TaskFlow, na Fase 1, cumpre o objetivo de apresentar um frontend funcional, responsivo e organizado para gerenciamento de tarefas pessoais.
+Reforce que o projeto está preparado para evoluir na Fase 2 com backend, banco de dados e autenticação real.
+
+20. Referência aos critérios avaliativos
+
+Inclua uma seção ou parágrafo final dizendo que o projeto foi desenvolvido considerando:
+- Qualidade da documentação.
+- Nível de detalhes da aplicação.
+- Organização do código.
+- Funcionamento sem erros.
+- Responsividade Web e Mobile.
+- Uso de React Native com Expo.
+
+Formatação desejada:
+- Documento com títulos bem definidos.
+- Linguagem formal, mas clara.
+- Organização acadêmica.
+- Aparência limpa e profissional.
+- Capa centralizada.
+- Sumário, se possível.
+- Numeração de páginas, se possível.
+- Sem excesso de texto desnecessário.
+- Usar listas e subtópicos quando fizer sentido.
+- Gerar um arquivo PDF final pronto para entrega.

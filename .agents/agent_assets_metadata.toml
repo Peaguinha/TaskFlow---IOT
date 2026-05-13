@@ -1,8 +1,13 @@
 uploads = []
-outputs = []
 
 [[generated]]
 id = "N_vJXWVXP5_HoAs1RyX3d"
 uri = "file://artifacts/taskflow/assets/images/icon.png"
 type = "image"
 title = "taskflow icon"
+
+[[outputs]]
+id = "FcN5_ipy7qtWo2Dxn3l0-"
+uri = "file://TaskFlow_Fase1_Documentacao.pdf"
+type = "pdf"
+title = "TaskFlow — Documentação Fase 1"
