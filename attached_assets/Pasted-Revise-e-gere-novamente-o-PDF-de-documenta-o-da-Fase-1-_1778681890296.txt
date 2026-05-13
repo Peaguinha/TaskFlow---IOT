@@ -1,0 +1,253 @@
+Revise e gere novamente o PDF de documentação da Fase 1 do projeto TaskFlow, corrigindo problemas visuais, estruturais e adicionando prints reais da aplicação.
+
+O documento atual já possui o conteúdo textual correto, mas precisa de melhorias importantes:
+
+1. Remover páginas em branco ou páginas quase vazias
+
+O PDF atual está gerando páginas desnecessárias apenas com cabeçalho, rodapé ou numeração.
+
+Ajustes obrigatórios:
+- Remover páginas em branco.
+- Remover páginas que tenham apenas cabeçalho, rodapé ou número de página.
+- Ajustar as quebras de página para evitar espaços vazios excessivos.
+- Não deixar páginas apenas com título isolado.
+- O conteúdo deve fluir de forma natural.
+- Reduzir espaçamentos excessivos entre seções.
+- Garantir que o PDF final fique mais compacto, limpo e profissional.
+
+2. Melhorar completamente a capa
+
+A capa atual ficou visualmente desorganizada. Refaça a capa com aparência acadêmica, limpa e profissional.
+
+A capa deve conter:
+
+TaskFlow  
+Gerenciador de Tarefas Pessoais  
+
+Documentação da Fase 1
+
+Disciplina:  
+Desenvolver Aplicativos para dispositivos móveis e IOT
+
+Professor:  
+Matheus Batista Silva
+
+Integrante:  
+Pedro Henrique de Almeida Peixoto
+
+Data de entrega:  
+23 de maio de 2026
+
+Regras para a capa:
+- Centralizar os elementos principais.
+- Usar boa hierarquia visual.
+- O nome “TaskFlow” deve ser o maior destaque.
+- “Gerenciador de Tarefas Pessoais” deve aparecer como subtítulo.
+- “Documentação da Fase 1” deve aparecer logo abaixo do subtítulo.
+- Evitar colunas apertadas.
+- Evitar quebra estranha de nomes.
+- Remover qualquer caractere estranho ou símbolo solto.
+- Usar um visual limpo, com cores discretas baseadas na identidade do app:
+  - Azul escuro: #1E3A8A
+  - Azul principal: #2563EB
+  - Fundo claro: #F8FAFC
+  - Texto: #334155
+- A capa deve parecer documento acadêmico, mas com uma apresentação mais bonita e moderna.
+
+3. Capturar prints reais da aplicação
+
+Antes de gerar o PDF revisado, execute a aplicação TaskFlow no Replit e capture prints reais das telas.
+
+Crie a pasta:
+
+assets/screenshots/
+
+Capture e salve os prints com os seguintes nomes:
+
+- welcome.png
+- login.png
+- register.png
+- dashboard.png
+- filters.png
+- create-task.png
+- task-details.png
+- update-status.png
+
+Telas que devem ser capturadas:
+
+1. Tela de boas-vindas.
+2. Tela de login.
+3. Tela de cadastro.
+4. Dashboard com listagem de tarefas.
+5. Dashboard com filtros de tarefas.
+6. Tela de criação de tarefa.
+7. Tela de detalhes da tarefa.
+8. Tela de detalhes mostrando atualização de status.
+
+Regras para os prints:
+- Usar prints reais da aplicação rodando.
+- Não usar placeholders se conseguir capturar os prints reais.
+- Os prints devem estar nítidos.
+- Evitar prints cortados.
+- Preferencialmente capturar em uma largura que represente bem a versão web/mobile.
+- Ajustar o tamanho das imagens dentro do PDF para não estourar as margens.
+- Cada imagem deve ter legenda.
+- Evitar que uma imagem fique sozinha em uma página vazia.
+
+Caso não consiga capturar automaticamente algum print:
+- Informe quais prints não foram capturados.
+- Crie apenas nesses casos um placeholder visual organizado com a mensagem:
+  “Inserir print da tela aqui”.
+- O placeholder deve ter borda, fundo claro e legenda.
+
+4. Inserir prints nos casos de uso
+
+Na seção “Casos de Uso Principais”, após a descrição de cada caso de uso, adicione o print correspondente com legenda.
+
+Casos de uso:
+
+Caso de Uso 1 — Criar Tarefa  
+Usar o print:
+assets/screenshots/create-task.png
+
+Legenda:
+Figura 1 — Tela de criação de tarefa no TaskFlow.
+
+Caso de Uso 2 — Listar Tarefas  
+Usar o print:
+assets/screenshots/dashboard.png
+
+Legenda:
+Figura 2 — Dashboard com listagem de tarefas cadastradas.
+
+Caso de Uso 3 — Visualizar Detalhes da Tarefa  
+Usar o print:
+assets/screenshots/task-details.png
+
+Legenda:
+Figura 3 — Tela de detalhes de uma tarefa selecionada.
+
+Caso de Uso 4 — Atualizar Status da Tarefa  
+Usar o print:
+assets/screenshots/update-status.png
+
+Legenda:
+Figura 4 — Atualização do status de uma tarefa.
+
+Caso de Uso 5 — Filtrar Tarefas por Status ou Prioridade  
+Usar o print:
+assets/screenshots/filters.png
+
+Legenda:
+Figura 5 — Filtros de tarefas por status e prioridade.
+
+5. Melhorar a seção “Telas da Aplicação”
+
+Na seção “Telas da Aplicação”, adicionar prints reais das telas principais:
+
+- Tela de boas-vindas:
+  assets/screenshots/welcome.png
+  Legenda: Figura 6 — Tela de boas-vindas do TaskFlow.
+
+- Tela de login:
+  assets/screenshots/login.png
+  Legenda: Figura 7 — Tela de login simulado.
+
+- Tela de cadastro:
+  assets/screenshots/register.png
+  Legenda: Figura 8 — Tela de cadastro simulado.
+
+- Dashboard:
+  assets/screenshots/dashboard.png
+  Legenda: Figura 9 — Dashboard principal do TaskFlow.
+
+- Tela de criação de tarefa:
+  assets/screenshots/create-task.png
+  Legenda: Figura 10 — Tela de criação de tarefa.
+
+- Tela de detalhes da tarefa:
+  assets/screenshots/task-details.png
+  Legenda: Figura 11 — Tela de detalhes da tarefa.
+
+6. Manter o conteúdo textual atual
+
+Não remover as seções importantes já existentes.
+
+Manter obrigatoriamente:
+
+- Introdução
+- Problema identificado
+- Objetivo geral
+- Objetivos específicos
+- Público-alvo
+- Descrição da solução
+- Tecnologias utilizadas
+- Requisitos funcionais
+- Requisitos não funcionais
+- Usuários do sistema
+- Casos de uso principais
+- Telas da aplicação
+- Organização do código
+- Componentes reutilizáveis
+- Dados mockados
+- Limitações da Fase 1
+- Planejamento para a Fase 2
+- Conclusão
+- Critérios avaliativos
+
+Pode ajustar pequenos trechos de texto apenas para melhorar fluidez, coerência e formatação, mas sem remover conteúdo essencial.
+
+7. Melhorar a diagramação geral
+
+Ajustes obrigatórios:
+- Usar títulos bem destacados.
+- Manter margens confortáveis.
+- Melhorar espaçamento entre parágrafos.
+- Evitar tabelas quebradas de forma feia.
+- Evitar texto muito colado nas bordas.
+- Manter cabeçalho e rodapé discretos.
+- Inserir numeração de páginas corretamente.
+- Garantir que o sumário continue coerente.
+- Usar visual acadêmico e profissional.
+- Usar listas e subtópicos quando fizer sentido.
+- Evitar excesso de texto corrido.
+- Evitar que imagens fiquem estouradas ou desproporcionais.
+- Evitar páginas quase vazias.
+- Garantir boa legibilidade do PDF final.
+
+8. Conferência final obrigatória
+
+Antes de finalizar, confira:
+
+- A capa está bonita, centralizada e profissional.
+- Não há caracteres estranhos na capa.
+- Não há páginas em branco.
+- Não há páginas apenas com cabeçalho, rodapé ou número.
+- Os prints foram inseridos corretamente.
+- Todos os prints possuem legenda.
+- O sumário está coerente.
+- As seções principais continuam presentes.
+- O PDF está visualmente organizado.
+- O nome do integrante está correto:
+  Pedro Henrique de Almeida Peixoto
+- O professor está correto:
+  Matheus Batista Silva
+- A disciplina está correta:
+  Desenvolver Aplicativos para dispositivos móveis e IOT
+
+9. Resultado esperado
+
+Gerar novamente o arquivo PDF final da documentação da Fase 1 com:
+
+- capa reorganizada e bonita;
+- páginas em branco removidas;
+- prints reais da aplicação;
+- prints dos casos de uso;
+- prints das telas principais;
+- conteúdo textual preservado;
+- diagramação mais limpa e profissional;
+- aparência acadêmica e pronta para entrega.
+
+Nome do arquivo final:
+
+TaskFlow_Fase1_Documentacao_Revisada.pdf

@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "pdfkit": "^0.18.0",
-    "pdfmake": "^0.3.8"
+    "pdfmake": "^0.3.8",
+    "playwright-chromium": "^1.60.0"
   }
 }
