@@ -278,11 +278,15 @@ doc.save().circle(PAGE_W / 2, logoY + logoSize / 2, logoSize / 2 + 6)
   .fill(C.lightBlue).restore();
 doc.save().circle(PAGE_W / 2, logoY + logoSize / 2, logoSize / 2 + 6)
   .strokeColor(C.accent).lineWidth(1.5).stroke().restore();
-// imagem real
+// imagem recortada em círculo
 if (fs.existsSync(ICON_PATH)) {
-  doc.image(ICON_PATH, logoX, logoY, { width: logoSize, height: logoSize });
+  const cx = PAGE_W / 2, cy = logoY + logoSize / 2, r = logoSize / 2;
+  doc.save()
+    .circle(cx, cy, r)
+    .clip()
+    .image(ICON_PATH, logoX, logoY, { width: logoSize, height: logoSize })
+    .restore();
 } else {
-  // fallback: checkmark
   doc.save().font("Helvetica-Bold").fontSize(40).fillColor(C.accent)
     .text("✓", logoX + 16, logoY + 18).restore();
 }
@@ -330,6 +334,7 @@ const integrantes = [
 ];
 const integrantesH = 14 + integrantes.length * 16 + 8; // label + linhas + padding
 const metaRows = [
+  ["Instituição",     "Unifacisa"],
   ["Professor",       "Matheus Batista Silva"],
   ["Disciplina",      "Dispositivos Móveis e IOT"],
   ["Data de entrega", "23 de maio de 2026"],
