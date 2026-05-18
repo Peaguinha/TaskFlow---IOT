@@ -7,13 +7,7 @@ type = "image"
 title = "taskflow icon"
 
 [[outputs]]
-id = "FcN5_ipy7qtWo2Dxn3l0-"
-uri = "file://TaskFlow_Fase1_Documentacao.pdf"
-type = "pdf"
-title = "TaskFlow — Documentação Fase 1"
-
-[[outputs]]
 id = "0KVW4Duca_aBr_l6c7WIg"
 uri = "file://TaskFlow_Fase1_Documentacao_Revisada.pdf"
 type = "pdf"
-title = "TaskFlow — Documentação Fase 1 (Revisada)"
+title = "Documentação-Fase1-TaskFlow"
