@@ -227,13 +227,15 @@ function insertScreenshot(doc, filename, caption, figNum) {
 // ══════════════════════════════════════════════════════════════════════════════
 // CREATE DOCUMENT
 // ══════════════════════════════════════════════════════════════════════════════
+const ICON_PATH = path.join(__dirname, "../artifacts/taskflow/assets/images/icon.png");
+
 const doc = new PDFDocument({
   size: "A4",
   margins: { top: MARGIN, bottom: 62, left: MARGIN, right: MARGIN },
   bufferPages: true,
   info: {
     Title: "TaskFlow — Documentação Fase 1",
-    Author: "Pedro Henrique de Almeida Peixoto",
+    Author: "Pedro Henrique de Almeida Peixoto; Marcos Marinho Segundo; Armando Aleixo; Samuel Soares",
     Subject: "Desenvolver Aplicativos para dispositivos móveis e IOT",
     Creator: "TaskFlow",
   },
@@ -267,21 +269,26 @@ doc.save()
 // Linha separadora sutil
 drawLine(doc, MARGIN + 30, 76, PAGE_W - MARGIN - 30, 76, C.border, 0.8);
 
-// ── Ícone / badge central ─────────────────────────────────────────────────────
-const badgeY = 110;
-const badgeSize = 74;
-const badgeX = PAGE_W / 2 - badgeSize / 2;
-// circle background
-doc.save().circle(PAGE_W / 2, badgeY + badgeSize / 2, badgeSize / 2 + 2)
+// ── Logo / ícone real do TaskFlow ─────────────────────────────────────────────
+const logoSize = 80;
+const logoX = PAGE_W / 2 - logoSize / 2;
+const logoY = 96;
+// círculo de fundo (halo)
+doc.save().circle(PAGE_W / 2, logoY + logoSize / 2, logoSize / 2 + 6)
   .fill(C.lightBlue).restore();
-doc.save().circle(PAGE_W / 2, badgeY + badgeSize / 2, badgeSize / 2 + 2)
+doc.save().circle(PAGE_W / 2, logoY + logoSize / 2, logoSize / 2 + 6)
   .strokeColor(C.accent).lineWidth(1.5).stroke().restore();
-// Check symbol
-doc.save().font("Helvetica-Bold").fontSize(38).fillColor(C.accent)
-  .text("✓", badgeX + 14, badgeY + 18).restore();
+// imagem real
+if (fs.existsSync(ICON_PATH)) {
+  doc.image(ICON_PATH, logoX, logoY, { width: logoSize, height: logoSize });
+} else {
+  // fallback: checkmark
+  doc.save().font("Helvetica-Bold").fontSize(40).fillColor(C.accent)
+    .text("✓", logoX + 16, logoY + 18).restore();
+}
 
 // ── Títulos principais ────────────────────────────────────────────────────────
-const titleY = badgeY + badgeSize + 22;
+const titleY = logoY + logoSize + 24;
 doc.save()
   .font("Helvetica-Bold").fontSize(44).fillColor(C.primary)
   .text("TaskFlow", 0, titleY, { align: "center", width: PAGE_W, characterSpacing: 0.5 })
@@ -289,55 +296,80 @@ doc.save()
 
 doc.save()
   .font("Helvetica").fontSize(15).fillColor(C.textGray)
-  .text("Gerenciador de Tarefas Pessoais", 0, titleY + 58, { align: "center", width: PAGE_W })
+  .text("Gerenciador de Tarefas Pessoais", 0, titleY + 56, { align: "center", width: PAGE_W })
   .restore();
 
-// ── Faixa azul "Documentação da Fase 1" ─────────────────────────────────────
-const badgeFaseY = titleY + 88;
+// ── Faixa azul "Documentação da Fase 1" ──────────────────────────────────────
+const badgeFaseY = titleY + 86;
 const badgeFaseW = 260;
 const badgeFaseX = PAGE_W / 2 - badgeFaseW / 2;
 fillRect(doc, badgeFaseX, badgeFaseY, badgeFaseW, 32, C.primary);
-doc.save().rect(badgeFaseX, badgeFaseY, badgeFaseW, 32).strokeColor(C.accent).lineWidth(0.5).stroke().restore();
+doc.save().rect(badgeFaseX, badgeFaseY, badgeFaseW, 32)
+  .strokeColor(C.accent).lineWidth(0.5).stroke().restore();
 doc.save()
   .font("Helvetica-Bold").fontSize(11.5).fillColor(C.white)
-  .text("Documentação da Fase 1", badgeFaseX, badgeFaseY + 10, { align: "center", width: badgeFaseW, characterSpacing: 0.4 })
+  .text("Documentação da Fase 1", badgeFaseX, badgeFaseY + 10,
+    { align: "center", width: badgeFaseW, characterSpacing: 0.4 })
   .restore();
 
 // ── Linha divisória central ───────────────────────────────────────────────────
-const divY = badgeFaseY + 58;
+const divY = badgeFaseY + 52;
 drawLine(doc, MARGIN + 40, divY, PAGE_W - MARGIN - 40, divY, C.border, 0.8);
 
-// ── Bloco de informações ──────────────────────────────────────────────────────
-const infoBoxY = divY + 28;
-const infoBoxW = 360;
+// ── Bloco de informações (4 integrantes + professor + disciplina + data) ──────
+const infoBoxW = 400;
 const infoBoxX = PAGE_W / 2 - infoBoxW / 2;
-const infoBoxH = 148;
+const infoBoxY = divY + 22;
 
-// box background
+// Seção: Integrantes
+const integrantes = [
+  "Pedro Henrique de Almeida Peixoto",
+  "Marcos Marinho Segundo",
+  "Armando Aleixo",
+  "Samuel Soares",
+];
+const integrantesH = 14 + integrantes.length * 16 + 8; // label + linhas + padding
+const metaRows = [
+  ["Professor",       "Matheus Batista Silva"],
+  ["Disciplina",      "Dispositivos Móveis e IOT"],
+  ["Data de entrega", "23 de maio de 2026"],
+];
+const metaH = metaRows.length * 28;
+const infoBoxH = integrantesH + metaH + 16;
+
 fillRect(doc, infoBoxX, infoBoxY, infoBoxW, infoBoxH, C.white);
-doc.save().rect(infoBoxX, infoBoxY, infoBoxW, infoBoxH).strokeColor(C.border).lineWidth(0.8).stroke().restore();
-// left accent bar
+doc.save().rect(infoBoxX, infoBoxY, infoBoxW, infoBoxH)
+  .strokeColor(C.border).lineWidth(0.8).stroke().restore();
 fillRect(doc, infoBoxX, infoBoxY, 5, infoBoxH, C.accent);
 
-const infoData = [
-  ["Integrante",     "Pedro Henrique de Almeida Peixoto"],
-  ["Professor",      "Matheus Batista Silva"],
-  ["Disciplina",     "Dispositivos Móveis e IOT"],
-  ["Data de entrega","23 de maio de 2026"],
-];
+// — Integrantes label
+let iy = infoBoxY + 14;
+doc.save()
+  .font("Helvetica-Bold").fontSize(8).fillColor(C.accent)
+  .text("INTEGRANTES", infoBoxX + 18, iy, { width: 100 })
+  .restore();
+iy += 14;
+integrantes.forEach((nome, idx) => {
+  doc.save()
+    .font("Helvetica").fontSize(9.5).fillColor(C.coverText)
+    .text(`• ${nome}`, infoBoxX + 118, iy - 1, { width: infoBoxW - 134 })
+    .restore();
+  iy += 16;
+});
+iy += 6;
 
-infoData.forEach(([label, value], i) => {
-  const iy = infoBoxY + 18 + i * 30;
-  // subtle row separator
-  if (i > 0) drawLine(doc, infoBoxX + 14, iy - 8, infoBoxX + infoBoxW - 14, iy - 8, C.bgLight, 0.5);
+// — Demais campos
+metaRows.forEach(([label, value], i) => {
+  drawLine(doc, infoBoxX + 14, iy - 6, infoBoxX + infoBoxW - 14, iy - 6, C.bgLight, 0.5);
   doc.save()
     .font("Helvetica-Bold").fontSize(8).fillColor(C.accent)
-    .text(label.toUpperCase(), infoBoxX + 18, iy, { width: 90 })
+    .text(label.toUpperCase(), infoBoxX + 18, iy, { width: 100 })
     .restore();
   doc.save()
     .font("Helvetica").fontSize(10).fillColor(C.coverText)
     .text(value, infoBoxX + 118, iy - 1, { width: infoBoxW - 134 })
     .restore();
+  iy += 28;
 });
 
 // ── Rodapé da capa ────────────────────────────────────────────────────────────
