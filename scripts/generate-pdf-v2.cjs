@@ -488,19 +488,19 @@ body(doc, "Na Fase 1, o sistema é composto exclusivamente pelo frontend da apli
 
 // ── 7. TECNOLOGIAS ────────────────────────────────────────────────────────────
 secTitle(doc, 7, "Tecnologias Utilizadas");
-const techW = 110;
+const techW = 126;
 drawTable(doc, [techW, CW - techW], [
   { cells: [{ text: "Tecnologia", bold: true, color: C.white }, { text: "Finalidade", bold: true, color: C.white }] },
   ...[
-    ["React Native",          "Framework principal para desenvolvimento da interface multiplataforma (mobile e web)."],
-    ["Expo",                  "Ambiente para criação, execução e testes simplificados da aplicação React Native."],
-    ["JavaScript / TypeScript","Linguagem de programação e tipagem estática utilizadas no desenvolvimento."],
-    ["React Navigation",      "Biblioteca para navegação entre telas utilizando stack nativa."],
-    ["React Hooks",           "Utilizados para controle de estado e comportamento (useState, useContext, useCallback)."],
-    ["Dados Mockados",        "Simulação de tarefas sem necessidade de banco de dados na Fase 1."],
-    ["Replit",                "Ambiente de desenvolvimento, execução e hospedagem do projeto."],
-  ].map(([t, d], i) => ({
-    h: 22,
+    ["React Native",          22, "Framework principal para desenvolvimento da interface multiplataforma (mobile e web)."],
+    ["Expo",                  22, "Ambiente para criação, execução e testes simplificados da aplicação React Native."],
+    ["JavaScript/TypeScript", 22, "Linguagem de programação e tipagem estática utilizadas no desenvolvimento."],
+    ["React Navigation",      22, "Biblioteca para navegação entre telas utilizando stack nativa."],
+    ["React Hooks",           22, "Utilizados para controle de estado e comportamento (useState, useContext, useCallback)."],
+    ["Dados Mockados",        22, "Simulação de tarefas sem necessidade de banco de dados na Fase 1."],
+    ["Replit",                22, "Ambiente de desenvolvimento, execução e hospedagem do projeto."],
+  ].map(([t, h, d], i) => ({
+    h,
     cells: [
       { text: t, bold: true, color: C.accent, bg: i % 2 === 0 ? C.white : C.bgLight },
       { text: d, color: C.textDark,            bg: i % 2 === 0 ? C.white : C.bgLight },
