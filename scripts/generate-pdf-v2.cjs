@@ -331,6 +331,7 @@ const integrantes = [
   "Marcos Marinho Segundo",
   "Armando Aleixo",
   "Samuel Soares",
+  "João Victor Silva Guedes",
 ];
 const integrantesH = 14 + integrantes.length * 16 + 8; // label + linhas + padding
 const metaRows = [
